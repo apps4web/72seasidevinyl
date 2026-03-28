@@ -104,6 +104,29 @@ class PagesControllerTest extends TestCase
     }
 
     /**
+     * Test that the homepage uses real store photos instead of placeholders.
+     *
+     * @return void
+     */
+    public function testHomepageStorePhotos()
+    {
+        Configure::write('debug', true);
+        $this->get('/');
+        $this->assertResponseOk();
+        // Real images should be present
+        $this->assertResponseContains('user-attachments/assets');
+        $this->assertResponseContains('photo-frame');
+        $this->assertResponseContains('photo-img');
+        // Hero background image
+        $this->assertResponseContains('hero-bg-img');
+        // Photo captions
+        $this->assertResponseContains('Ons Assortiment');
+        $this->assertResponseContains('De Winkel');
+        // Old placeholder markup should not be present
+        $this->assertResponseNotContains('photo-placeholder');
+    }
+
+    /**
      * Test directory traversal protection
      *
      * @return void
