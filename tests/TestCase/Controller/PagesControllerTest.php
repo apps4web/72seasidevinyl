@@ -38,8 +38,39 @@ class PagesControllerTest extends TestCase
         Configure::write('debug', true);
         $this->get('/pages/home');
         $this->assertResponseOk();
-        $this->assertResponseContains('CakePHP');
-        $this->assertResponseContains('<html>');
+        $this->assertResponseContains('72 Seaside Vinyl');
+        $this->assertResponseContains('<html');
+    }
+
+    /**
+     * Test that the homepage contains all required sections.
+     *
+     * @return void
+     */
+    public function testHomepageSections()
+    {
+        Configure::write('debug', true);
+        $this->get('/');
+        $this->assertResponseOk();
+        $this->assertResponseContains('72 Seaside Vinyl');
+        $this->assertResponseContains('Over Ons');
+        $this->assertResponseContains('Nieuwste Platen');
+        $this->assertResponseContains('Contact');
+        $this->assertResponseContains('Zierikzee');
+    }
+
+    /**
+     * Test that latest releases are shown on the homepage.
+     *
+     * @return void
+     */
+    public function testHomepageLatestReleases()
+    {
+        Configure::write('debug', true);
+        $this->get('/');
+        $this->assertResponseOk();
+        $this->assertResponseContains('Radical Optimism');
+        $this->assertResponseContains('Dua Lipa');
     }
 
     /**

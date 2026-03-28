@@ -1,55 +1,68 @@
 <?php
 /**
- * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
- * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
- *
- * Licensed under The MIT License
- * For full copyright and license information, please see the LICENSE.txt
- * Redistributions of files must retain the above copyright notice.
- *
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
- * @link          https://cakephp.org CakePHP(tm) Project
- * @since         0.10.0
- * @license       https://opensource.org/licenses/mit-license.php MIT License
  * @var \App\View\AppView $this
  */
-
-$cakeDescription = 'CakePHP: the rapid development php framework';
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="nl">
 <head>
     <?= $this->Html->charset() ?>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>
-        <?= $cakeDescription ?>:
-        <?= $this->fetch('title') ?>
-    </title>
+    <meta name="description" content="72 Seaside Vinyl – Jouw vinyl platenwinkel in Zierikzee. Nieuwe en tweedehands platen, een passioneel team en een warme sfeer.">
+    <title>72 Seaside Vinyl<?= $this->fetch('title') ? ' | ' . $this->fetch('title') : '' ?></title>
     <?= $this->Html->meta('icon') ?>
-
-    <?= $this->Html->css(['normalize.min', 'milligram.min', 'fonts', 'cake']) ?>
-
+    <?= $this->Html->css(['normalize.min', 'seaside']) ?>
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
-    <?= $this->fetch('script') ?>
 </head>
 <body>
-    <nav class="top-nav">
-        <div class="top-nav-title">
-            <a href="<?= $this->Url->build('/') ?>"><span>Cake</span>PHP</a>
-        </div>
-        <div class="top-nav-links">
-            <a target="_blank" rel="noopener" href="https://book.cakephp.org/5/">Documentation</a>
-            <a target="_blank" rel="noopener" href="https://api.cakephp.org/">API</a>
-        </div>
-    </nav>
-    <main class="main">
-        <div class="container">
-            <?= $this->Flash->render() ?>
-            <?= $this->fetch('content') ?>
-        </div>
-    </main>
-    <footer>
-    </footer>
+
+<header class="site-header">
+    <div class="header-inner">
+        <a href="<?= $this->Url->build('/') ?>" class="site-logo">
+            <span class="logo-record">&#9899;</span>
+            <span class="logo-text">72 Seaside Vinyl</span>
+        </a>
+        <button class="nav-toggle" aria-label="Menu openen" aria-expanded="false">&#9776;</button>
+        <nav class="site-nav" id="site-nav">
+            <a href="#home">Home</a>
+            <a href="#about">Over Ons</a>
+            <a href="#releases">Nieuwste Platen</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <?= $this->Flash->render() ?>
+    <?= $this->fetch('content') ?>
+</main>
+
+<footer class="site-footer">
+    <div class="footer-inner">
+        <p class="footer-brand">72 Seaside Vinyl &mdash; Zierikzee</p>
+        <p class="footer-copy">&copy; <?= date('Y') ?> 72 Seaside Vinyl. Alle rechten voorbehouden.</p>
+    </div>
+</footer>
+
+<script>
+    // Mobile navigation toggle
+    var toggle = document.querySelector('.nav-toggle');
+    var nav = document.getElementById('site-nav');
+    if (toggle && nav) {
+        toggle.addEventListener('click', function () {
+            var open = nav.classList.toggle('open');
+            toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        });
+    }
+    // Close nav when a link is clicked on mobile
+    nav && nav.querySelectorAll('a').forEach(function (link) {
+        link.addEventListener('click', function () {
+            nav.classList.remove('open');
+            toggle && toggle.setAttribute('aria-expanded', 'false');
+        });
+    });
+</script>
+<?= $this->fetch('script') ?>
 </body>
 </html>

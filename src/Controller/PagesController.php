@@ -16,7 +16,6 @@ declare(strict_types=1);
  */
 namespace App\Controller;
 
-use Cake\Core\Configure;
 use Cake\Http\Exception\ForbiddenException;
 use Cake\Http\Exception\NotFoundException;
 use Cake\Http\Response;
@@ -31,6 +30,62 @@ use Cake\View\Exception\MissingTemplateException;
  */
 class PagesController extends AppController
 {
+    /**
+     * Latest vinyl releases shown on the homepage.
+     *
+     * @var array<int, array<string, string>>
+     */
+    protected array $latestReleases = [
+        [
+            'title' => 'Radical Optimism',
+            'artist' => 'Dua Lipa',
+            'genre' => 'Pop',
+            'price' => '29,99',
+            'color' => '#6C3483',
+            'label_text' => 'LP',
+        ],
+        [
+            'title' => 'Cowboy Carter',
+            'artist' => 'Beyoncé',
+            'genre' => 'Country / R&B',
+            'price' => '34,99',
+            'color' => '#1A5276',
+            'label_text' => '2xLP',
+        ],
+        [
+            'title' => 'Short n\' Sweet',
+            'artist' => 'Sabrina Carpenter',
+            'genre' => 'Pop',
+            'price' => '27,99',
+            'color' => '#C0392B',
+            'label_text' => 'LP',
+        ],
+        [
+            'title' => 'The Great Impersonator',
+            'artist' => 'Halsey',
+            'genre' => 'Alternative',
+            'price' => '31,99',
+            'color' => '#1E8449',
+            'label_text' => '2xLP',
+        ],
+        [
+            'title' => 'Manning Fireworks',
+            'artist' => 'MJ Lenderman',
+            'genre' => 'Indie Rock',
+            'price' => '26,99',
+            'color' => '#784212',
+            'label_text' => 'LP',
+        ],
+        [
+            'title' => 'Imaginal Disk',
+            'artist' => 'Magdalena Bay',
+            'genre' => 'Synth-Pop',
+            'price' => '29,99',
+            'color' => '#117A65',
+            'label_text' => 'LP',
+        ],
+    ];
+
     /**
      * Displays a view
      *
@@ -61,10 +116,14 @@ class PagesController extends AppController
         }
         $this->set(compact('page', 'subpage'));
 
+        if ($page === 'home') {
+            $this->set('latestReleases', $this->latestReleases);
+        }
+
         try {
             return $this->render(implode('/', $path));
         } catch (MissingTemplateException $exception) {
-            if (Configure::read('debug')) {
+            if (\Cake\Core\Configure::read('debug')) {
                 throw $exception;
             }
             throw new NotFoundException();
