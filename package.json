@@ -1,0 +1,11 @@
+{
+  "name": "72seasidevinyl",
+  "version": "1.0.0",
+  "description": "App for 72 Seaside Vinyl in Zierikzee",
+  "scripts": {
+    "build": "cp node_modules/@fortawesome/fontawesome-pro/css/all.min.css css/ && cp -r node_modules/@fortawesome/fontawesome-pro/webfonts webfonts/"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-pro": "^6.0.0"
+  }
+}
