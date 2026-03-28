@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Google Fonts: Inter */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* TailAdmin custom component styles */
+@layer components {
+    /* Sidebar active item */
+    .sidebar-menu-item.active > a {
+        @apply bg-primary text-white;
+    }
+
+    /* Shadow defaults */
+    .shadow-default {
+        @apply shadow-md;
+    }
+
+    /* Form controls */
+    input[type="text"],
+    input[type="number"],
+    input[type="email"],
+    select,
+    textarea {
+        @apply rounded border border-stroke bg-gray-1 py-3 px-5 text-sm font-medium text-body-dark outline-none transition focus:border-primary;
+    }
+}
