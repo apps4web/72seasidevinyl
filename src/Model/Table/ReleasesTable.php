@@ -32,11 +32,15 @@ class ReleasesTable extends Table
     {
         parent::initialize($config);
 
-        $this->setTable('releases');
-        $this->setDisplayField('title');
+        $this->setTable('records');
+        $this->setDisplayField('name');
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
+
+        $this->belongsTo('Artists', [
+            'foreignKey' => 'artist_id',
+        ]);
     }
 
     /**
@@ -48,39 +52,35 @@ class ReleasesTable extends Table
     public function validationDefault(Validator $validator): Validator
     {
         $validator
-            ->scalar('title')
-            ->maxLength('title', 255)
-            ->requirePresence('title', 'create')
-            ->notEmptyString('title');
+            ->scalar('name')
+            ->maxLength('name', 255)
+            ->requirePresence('name', 'create')
+            ->notEmptyString('name');
 
         $validator
-            ->scalar('artist')
-            ->maxLength('artist', 255)
-            ->requirePresence('artist', 'create')
-            ->notEmptyString('artist');
-
-        $validator
-            ->scalar('genre')
-            ->maxLength('genre', 100)
-            ->notEmptyString('genre');
+            ->integer('artist_id')
+            ->requirePresence('artist_id', 'create')
+            ->notEmptyString('artist_id');
 
         $validator
             ->decimal('price')
-            ->requirePresence('price', 'create')
-            ->notEmptyString('price');
+            ->allowEmptyString('price');
 
         $validator
             ->scalar('color')
             ->maxLength('color', 7)
-            ->notEmptyString('color');
+            ->allowEmptyString('color');
 
         $validator
             ->scalar('label_text')
             ->maxLength('label_text', 20)
-            ->notEmptyString('label_text');
+            ->allowEmptyString('label_text');
 
         $validator
             ->boolean('in_stock');
+
+        $validator
+            ->boolean('is_latest');
 
         return $validator;
     }

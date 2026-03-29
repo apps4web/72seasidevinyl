@@ -145,7 +145,9 @@ $this->assign('title', 'Home');
                 <div class="release-info">
                     <h4 class="release-title"><?= h($release['title']) ?></h4>
                     <p class="release-artist"><?= h($release['artist']) ?></p>
+                    <?php if (!empty($release['genre'])) : ?>
                     <p class="release-genre"><?= h($release['genre']) ?></p>
+                    <?php endif; ?>
                     <p class="release-price">&euro; <?= h($release['price']) ?></p>
                 </div>
             </div>

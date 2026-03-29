@@ -45,14 +45,9 @@ $this->assign('title', 'Vinyl Releases');
             <thead>
                 <tr class="bg-gray-2 text-left">
                     <th class="min-w-[200px] py-4 px-4 font-medium text-body-dark">
-                        <?= $this->Paginator->sort('title', 'Title') ?>
+                        <?= $this->Paginator->sort('name', 'Title') ?>
                     </th>
-                    <th class="min-w-[150px] py-4 px-4 font-medium text-body-dark">
-                        <?= $this->Paginator->sort('artist', 'Artist') ?>
-                    </th>
-                    <th class="min-w-[120px] py-4 px-4 font-medium text-body-dark">
-                        <?= $this->Paginator->sort('genre', 'Genre') ?>
-                    </th>
+                    <th class="min-w-[150px] py-4 px-4 font-medium text-body-dark">Artist</th>
                     <th class="min-w-[100px] py-4 px-4 font-medium text-body-dark">
                         <?= $this->Paginator->sort('price', 'Price') ?>
                     </th>
@@ -72,11 +67,10 @@ $this->assign('title', 'Vinyl Releases');
                                   style="background-color: <?= h($release->color) ?>">
                                 <?= h($release->label_text) ?>
                             </span>
-                            <span class="font-medium text-body-dark"><?= h($release->title) ?></span>
+                            <span class="font-medium text-body-dark"><?= h($release->name) ?></span>
                         </div>
                     </td>
-                    <td class="py-3 px-4 text-gray-4"><?= h($release->artist) ?></td>
-                    <td class="py-3 px-4 text-gray-4"><?= h($release->genre) ?></td>
+                    <td class="py-3 px-4 text-gray-4"><?= $release->artist ? h($release->artist->name) : '-' ?></td>
                     <td class="py-3 px-4 font-medium text-body-dark">€<?= number_format((float)$release->price, 2, ',', '.') ?></td>
                     <td class="py-3 px-4">
                         <span class="inline-flex rounded-full py-1 px-3 text-xs font-medium"
@@ -101,7 +95,7 @@ $this->assign('title', 'Vinyl Releases');
                                 'Delete',
                                 ['prefix' => 'Admin', 'controller' => 'Releases', 'action' => 'delete', $release->id],
                                 [
-                                    'confirm' => __('Are you sure you want to delete "{0}" by {1}?', $release->title, $release->artist),
+                                    'confirm' => __('Are you sure you want to delete "{0}" by {1}?', $release->name, $release->artist ? $release->artist->name : ''),
                                     'class' => 'text-sm font-medium text-danger hover:underline',
                                 ]
                             ) ?>

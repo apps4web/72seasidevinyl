@@ -4,8 +4,7 @@
     "description": "App for 72 Seaside Vinyl in Zierikzee",
     "private": true,
     "scripts": {
-        "build": "tailwindcss -i ./resources/css/app.css -o ./webroot/css/app.css",
-        "build": "cp node_modules/@fortawesome/fontawesome-pro/css/all.min.css css/ && cp -r node_modules/@fortawesome/fontawesome-pro/webfonts webfonts/"
+        "build": "tailwindcss -i ./resources/css/app.css -o ./webroot/css/app.css && cp node_modules/@fortawesome/fontawesome-pro/css/all.min.css webroot/css/ && cp -r node_modules/@fortawesome/fontawesome-pro/webfonts webroot/webfonts",
         "watch": "tailwindcss -i ./resources/css/app.css -o ./webroot/css/app.css --watch",
         "build:minify": "tailwindcss -i ./resources/css/app.css -o ./webroot/css/app.css --minify"
     },

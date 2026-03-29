@@ -83,6 +83,8 @@ return function (RouteBuilder $routes): void {
      * All admin controllers live in src/Controller/Admin/.
      */
     $routes->prefix('admin', function (RouteBuilder $builder): void {
+        $builder->connect('/login', ['controller' => 'Users', 'action' => 'login'], ['_name' => 'admin:login']);
+        $builder->connect('/logout', ['controller' => 'Users', 'action' => 'logout'], ['_name' => 'admin:logout']);
         $builder->connect('/', ['controller' => 'Dashboard', 'action' => 'index']);
 
         // Explicit routes for Releases CRUD including form pages (GET add/edit)

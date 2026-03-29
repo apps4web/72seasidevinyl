@@ -32,6 +32,41 @@ use Cake\View\Exception\MissingTemplateException;
 class PagesController extends AppController
 {
     /**
+     * Fallback release data used when the database is unavailable.
+     *
+     * @return array<int, array<string, string>>
+     */
+    private function getFallbackLatestReleases(): array
+    {
+        return [
+            [
+                'title' => 'Radical Optimism',
+                'artist' => 'Dua Lipa',
+                'genre' => '',
+                'price' => '29,99',
+                'color' => '#6C3483',
+                'label_text' => 'LP',
+            ],
+            [
+                'title' => 'Cowboy Carter',
+                'artist' => 'Beyonce',
+                'genre' => '',
+                'price' => '34,99',
+                'color' => '#1A5276',
+                'label_text' => '2xLP',
+            ],
+            [
+                'title' => 'Short n\' Sweet',
+                'artist' => 'Sabrina Carpenter',
+                'genre' => '',
+                'price' => '27,99',
+                'color' => '#C0392B',
+                'label_text' => 'LP',
+            ],
+        ];
+    }
+
+    /**
      * Displays a view
      *
      * @param string ...$path Path segments.
@@ -62,11 +97,15 @@ class PagesController extends AppController
         $this->set(compact('page', 'subpage'));
 
         if ($page === 'home') {
-            $latestReleases = $this->latestReleases;
+            $latestReleases = $this->getFallbackLatestReleases();
             try {
                 $dbReleases = $this->fetchTable('Releases')
                     ->find()
-                    ->where(['in_stock' => true])
+                    ->contain(['Artists'])
+                    ->where([
+                        'Releases.in_stock' => true,
+                        'Releases.is_latest' => true,
+                    ])
                     ->orderByDesc('created')
                     ->limit(6)
                     ->all();
@@ -74,9 +113,9 @@ class PagesController extends AppController
                 if ($dbReleases->count() > 0) {
                     $latestReleases = array_map(function ($release) {
                         return [
-                            'title' => $release->title,
-                            'artist' => $release->artist,
-                            'genre' => $release->genre,
+                            'title' => $release->name,
+                            'artist' => $release->artist?->name ?? '',
+                            'genre' => '',
                             'price' => number_format((float)$release->price, 2, ',', '.'),
                             'color' => $release->color,
                             'label_text' => $release->label_text,

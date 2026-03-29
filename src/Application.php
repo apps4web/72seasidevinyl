@@ -17,6 +17,18 @@ declare(strict_types=1);
 namespace App;
 
 use App\Middleware\HostHeaderMiddleware;
+use Authentication\AuthenticationService;
+use Authentication\AuthenticationServiceInterface;
+use Authentication\AuthenticationServiceProviderInterface;
+use Authentication\Middleware\AuthenticationMiddleware;
+use Authorization\AuthorizationService;
+use Authorization\AuthorizationServiceInterface;
+use Authorization\AuthorizationServiceProviderInterface;
+use Authorization\Middleware\AuthorizationMiddleware;
+use Authorization\Policy\MapResolver;
+use Authorization\Policy\OrmResolver;
+use Authorization\Policy\ResolverCollection;
+use Cake\Http\ServerRequest;
 use Cake\Core\Configure;
 use Cake\Core\ContainerInterface;
 use Cake\Datasource\FactoryLocator;
@@ -29,6 +41,8 @@ use Cake\Http\MiddlewareQueue;
 use Cake\ORM\Locator\TableLocator;
 use Cake\Routing\Middleware\AssetMiddleware;
 use Cake\Routing\Middleware\RoutingMiddleware;
+use Cake\Routing\Router;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Application setup class.
@@ -38,7 +52,7 @@ use Cake\Routing\Middleware\RoutingMiddleware;
  *
  * @extends \Cake\Http\BaseApplication<\App\Application>
  */
-class Application extends BaseApplication
+class Application extends BaseApplication implements AuthenticationServiceProviderInterface, AuthorizationServiceProviderInterface
 {
     /**
      * Load all the application configuration and bootstrap logic.
@@ -88,6 +102,14 @@ class Application extends BaseApplication
             // https://book.cakephp.org/5/en/controllers/middleware.html#body-parser-middleware
             ->add(new BodyParserMiddleware())
 
+            // Authentication should run before Authorization.
+            ->add(new AuthenticationMiddleware($this))
+
+            // Authorization checks are performed by request policy + controller checks.
+            ->add(new AuthorizationMiddleware($this, [
+                'requireAuthorizationCheck' => false,
+            ]))
+
             // Cross Site Request Forgery (CSRF) Protection Middleware
             // https://book.cakephp.org/5/en/security/csrf.html#cross-site-request-forgery-csrf-middleware
             ->add(new CsrfProtectionMiddleware([
@@ -122,5 +144,54 @@ class Application extends BaseApplication
         // $eventManager->on(new SomeCustomListenerClass());
 
         return $eventManager;
+    }
+
+    /**
+     * Returns the authentication service provider.
+     *
+     * @param \Psr\Http\Message\ServerRequestInterface $request Request instance.
+     * @return \Authentication\AuthenticationServiceInterface
+     */
+    public function getAuthenticationService(ServerRequestInterface $request): AuthenticationServiceInterface
+    {
+        $service = new AuthenticationService([
+            'unauthenticatedRedirect' => Router::url('/admin/login'),
+            'queryParam' => 'redirect',
+        ]);
+
+        $fields = [
+            'username' => 'username',
+            'password' => 'password',
+        ];
+
+        $service->loadIdentifier('Authentication.Password', [
+            'fields' => $fields,
+        ]);
+
+        $service->loadAuthenticator('Authentication.Session');
+        $service->loadAuthenticator('Authentication.Form', [
+            'fields' => $fields,
+            'loginUrl' => Router::url('/admin/login'),
+        ]);
+
+        return $service;
+    }
+
+    /**
+     * Returns the authorization service provider.
+     *
+     * @param \Psr\Http\Message\ServerRequestInterface $request Request instance.
+     * @return \Authorization\AuthorizationServiceInterface
+     */
+    public function getAuthorizationService(ServerRequestInterface $request): AuthorizationServiceInterface
+    {
+        $resolver = new ResolverCollection([
+            new OrmResolver(),
+            new MapResolver([
+                ServerRequest::class => \App\Policy\RequestPolicy::class,
+            ]),
+        ]);
+
+        return new AuthorizationService($resolver);
     }
 }

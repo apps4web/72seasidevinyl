@@ -150,6 +150,11 @@
 
             <!-- Right side: flash messages indicator + user info -->
             <div class="flex items-center gap-3 2xsm:gap-7">
+                <?= $this->Form->postLink(
+                    'Logout',
+                    ['prefix' => 'Admin', 'controller' => 'Users', 'action' => 'logout'],
+                    ['class' => 'text-sm font-medium text-gray-4 hover:text-primary']
+                ) ?>
                 <div class="flex items-center gap-2">
                     <span class="hidden sm:block text-sm font-medium text-body-dark">72 Seaside Vinyl</span>
                     <span class="h-8 w-8 rounded-full bg-primary flex items-center justify-center text-white font-bold text-sm">72</span>

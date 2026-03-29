@@ -19,9 +19,12 @@ class ReleasesController extends AppController
      */
     public function index(): void
     {
-        $releases = $this->paginate($this->Releases, [
-            'order' => ['Releases.created' => 'DESC'],
-        ]);
+        $query = $this->Releases->find()
+            ->contain(['Artists'])
+            ->where(['is_latest' => true])
+            ->orderBy(['Releases.created' => 'DESC']);
+
+        $releases = $this->paginate($query);
 
         $this->set(compact('releases'));
     }
@@ -35,7 +38,10 @@ class ReleasesController extends AppController
      */
     public function view(?string $id = null): void
     {
-        $release = $this->Releases->get((int)$id);
+        $release = $this->Releases->find()
+            ->contain(['Artists'])
+            ->where(['Releases.id' => (int)$id])
+            ->firstOrFail();
         $this->set(compact('release'));
     }
 
@@ -48,7 +54,9 @@ class ReleasesController extends AppController
     {
         $release = $this->Releases->newEmptyEntity();
         if ($this->request->is('post')) {
-            $release = $this->Releases->patchEntity($release, $this->request->getData());
+            $data = $this->request->getData();
+            $data['is_latest'] = true;
+            $release = $this->Releases->patchEntity($release, $data);
             if ($this->Releases->save($release)) {
                 $this->Flash->success(__('The release has been saved.'));
 
@@ -56,7 +64,8 @@ class ReleasesController extends AppController
             }
             $this->Flash->error(__('The release could not be saved. Please, try again.'));
         }
-        $this->set(compact('release'));
+        $artists = $this->Releases->Artists->find('list', limit: 200)->all();
+        $this->set(compact('release', 'artists'));
     }
 
     /**
@@ -68,7 +77,10 @@ class ReleasesController extends AppController
      */
     public function edit(?string $id = null)
     {
-        $release = $this->Releases->get((int)$id);
+        $release = $this->Releases->find()
+            ->contain(['Artists'])
+            ->where(['Releases.id' => (int)$id])
+            ->firstOrFail();
         if ($this->request->is(['patch', 'post', 'put'])) {
             $release = $this->Releases->patchEntity($release, $this->request->getData());
             if ($this->Releases->save($release)) {
@@ -78,7 +90,8 @@ class ReleasesController extends AppController
             }
             $this->Flash->error(__('The release could not be saved. Please, try again.'));
         }
-        $this->set(compact('release'));
+        $artists = $this->Releases->Artists->find('list', limit: 200)->all();
+        $this->set(compact('release', 'artists'));
     }
 
     /**

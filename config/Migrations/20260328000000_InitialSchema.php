@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-use Migrations\AbstractMigration;
+use Migrations\BaseMigration;
 
 /**
  * Initial schema migration for 72 Seaside Vinyl.
@@ -18,7 +18,7 @@ use Migrations\AbstractMigration;
  *  - content_blocks  : reusable content blocks
  *  - sections_content_blocks : join table – sections <-> content_blocks (many-to-many)
  */
-class InitialSchema extends AbstractMigration
+class InitialSchema extends BaseMigration
 {
     /**
      * Disable automatic `id` column injection so each table definition
@@ -124,6 +124,30 @@ class InitialSchema extends AbstractMigration
                 'default' => null,
             ])
             ->addColumn('released', 'date', ['null' => true, 'default' => null])
+            ->addColumn('is_latest', 'boolean', [
+                'null'    => false,
+                'default' => false,
+            ])
+            ->addColumn('price', 'decimal', [
+                'precision' => 8,
+                'scale'     => 2,
+                'null'      => true,
+                'default'   => null,
+            ])
+            ->addColumn('color', 'string', [
+                'limit'   => 7,
+                'null'    => true,
+                'default' => '#000000',
+            ])
+            ->addColumn('label_text', 'string', [
+                'limit'   => 20,
+                'null'    => true,
+                'default' => 'LP',
+            ])
+            ->addColumn('in_stock', 'boolean', [
+                'null'    => false,
+                'default' => true,
+            ])
             ->addColumn('created', 'datetime', ['null' => true, 'default' => null])
             ->addColumn('modified', 'datetime', ['null' => true, 'default' => null])
             ->addIndex(['artist_id'], ['name' => 'idx_records_artist_id'])

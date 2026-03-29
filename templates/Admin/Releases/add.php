@@ -37,13 +37,13 @@ $this->assign('title', 'Add Release');
                 <label class="mb-2.5 block text-sm font-medium text-body-dark">
                     Title <span class="text-danger">*</span>
                 </label>
-                <?= $this->Form->control('title', [
+                <?= $this->Form->control('name', [
                     'label' => false,
                     'placeholder' => 'e.g. Radical Optimism',
-                    'class' => 'w-full rounded border border-stroke bg-gray-1 py-3 px-5 text-sm font-medium text-body-dark outline-none transition focus:border-primary active:border-primary' . ($release->hasErrors() && $release->getError('title') ? ' border-danger' : ''),
+                    'class' => 'w-full rounded border border-stroke bg-gray-1 py-3 px-5 text-sm font-medium text-body-dark outline-none transition focus:border-primary active:border-primary' . ($release->hasErrors() && $release->getError('name') ? ' border-danger' : ''),
                 ]) ?>
-                <?php if ($release->getError('title')): ?>
-                <p class="mt-1 text-xs text-danger"><?= h(current($release->getError('title'))) ?></p>
+                <?php if ($release->getError('name')): ?>
+                <p class="mt-1 text-xs text-danger"><?= h(current($release->getError('name'))) ?></p>
                 <?php endif; ?>
             </div>
 
@@ -52,24 +52,15 @@ $this->assign('title', 'Add Release');
                 <label class="mb-2.5 block text-sm font-medium text-body-dark">
                     Artist <span class="text-danger">*</span>
                 </label>
-                <?= $this->Form->control('artist', [
+                <?= $this->Form->control('artist_id', [
                     'label' => false,
-                    'placeholder' => 'e.g. Dua Lipa',
-                    'class' => 'w-full rounded border border-stroke bg-gray-1 py-3 px-5 text-sm font-medium text-body-dark outline-none transition focus:border-primary active:border-primary' . ($release->getError('artist') ? ' border-danger' : ''),
+                    'options' => $artists,
+                    'empty' => '-- Select Artist --',
+                    'class' => 'w-full rounded border border-stroke bg-gray-1 py-3 px-5 text-sm font-medium text-body-dark outline-none transition focus:border-primary active:border-primary' . ($release->getError('artist_id') ? ' border-danger' : ''),
                 ]) ?>
-                <?php if ($release->getError('artist')): ?>
-                <p class="mt-1 text-xs text-danger"><?= h(current($release->getError('artist'))) ?></p>
+                <?php if ($release->getError('artist_id')): ?>
+                <p class="mt-1 text-xs text-danger"><?= h(current($release->getError('artist_id'))) ?></p>
                 <?php endif; ?>
-            </div>
-
-            <!-- Genre -->
-            <div>
-                <label class="mb-2.5 block text-sm font-medium text-body-dark">Genre</label>
-                <?= $this->Form->control('genre', [
-                    'label' => false,
-                    'placeholder' => 'e.g. Pop',
-                    'class' => 'w-full rounded border border-stroke bg-gray-1 py-3 px-5 text-sm font-medium text-body-dark outline-none transition focus:border-primary active:border-primary',
-                ]) ?>
             </div>
 
             <!-- Price -->

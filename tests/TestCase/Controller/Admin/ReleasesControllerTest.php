@@ -20,6 +20,7 @@ class ReleasesControllerTest extends TestCase
      * @var array<string>
      */
     protected array $fixtures = [
+        'app.Artists',
         'app.Releases',
     ];
 
@@ -74,13 +75,12 @@ class ReleasesControllerTest extends TestCase
         Configure::write('debug', true);
         $this->enableCsrfToken();
         $data = [
-            'title' => 'Test Album',
-            'artist' => 'Test Artist',
-            'genre' => 'Test Genre',
-            'price' => 19.99,
-            'color' => '#FF0000',
+            'name'       => 'Test Album',
+            'artist_id'  => 1,
+            'price'      => 19.99,
+            'color'      => '#FF0000',
             'label_text' => 'LP',
-            'in_stock' => true,
+            'in_stock'   => true,
         ];
         $this->post('/admin/releases/add', $data);
         $this->assertResponseCode(302);
@@ -96,7 +96,7 @@ class ReleasesControllerTest extends TestCase
     {
         Configure::write('debug', true);
         $this->enableCsrfToken();
-        $this->post('/admin/releases/add', ['title' => '', 'artist' => '']);
+        $this->post('/admin/releases/add', ['name' => '', 'artist_id' => '']);
         $this->assertResponseOk();
         $this->assertResponseContains('Add New Release');
     }
@@ -125,13 +125,12 @@ class ReleasesControllerTest extends TestCase
         Configure::write('debug', true);
         $this->enableCsrfToken();
         $data = [
-            'title' => 'Updated Title',
-            'artist' => 'Dua Lipa',
-            'genre' => 'Pop',
-            'price' => 29.99,
-            'color' => '#6C3483',
+            'name'       => 'Updated Title',
+            'artist_id'  => 1,
+            'price'      => 29.99,
+            'color'      => '#6C3483',
             'label_text' => 'LP',
-            'in_stock' => true,
+            'in_stock'   => true,
         ];
         $this->post('/admin/releases/edit/1', $data);
         $this->assertResponseCode(302);
