@@ -1,59 +1,68 @@
 <?php
 /**
- * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
- * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
- *
- * Licensed under The MIT License
- * For full copyright and license information, please see the LICENSE.txt
- * Redistributions of files must retain the above copyright notice.
- *
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
- * @link          https://cakephp.org CakePHP(tm) Project
- * @since         0.10.0
- * @license       https://opensource.org/licenses/mit-license.php MIT License
  * @var \App\View\AppView $this
  */
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
 <head>
     <?= $this->Html->charset() ?>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>
-        72 Seaside Vinyl:
-        <?= $this->fetch('title') ?>
-    </title>
+    <meta name="description" content="72 Seaside Vinyl – Jouw vinyl platenwinkel in Zierikzee. Nieuwe en tweedehands platen, een passioneel team en een warme sfeer.">
+    <title>72 Seaside Vinyl<?= $this->fetch('title') ? ' | ' . $this->fetch('title') : '' ?></title>
     <?= $this->Html->meta('icon') ?>
-
-    <?= $this->Html->css('app') ?>
-
+    <?= $this->Html->css(['normalize.min', 'seaside']) ?>
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
-    <?= $this->fetch('script') ?>
 </head>
-<body class="min-h-screen bg-gray-50 text-gray-900">
-    <nav class="bg-white shadow-sm border-b border-gray-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex-shrink-0">
-                    <a href="<?= $this->Url->build('/') ?>" class="text-xl font-bold text-gray-900 hover:text-gray-700">
-                        72 Seaside Vinyl
-                    </a>
-                </div>
-                <div class="flex items-center gap-6">
-                    <?= $this->fetch('nav') ?>
-                </div>
-            </div>
-        </div>
-    </nav>
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <?= $this->Flash->render() ?>
-        <?= $this->fetch('content') ?>
-    </main>
-    <footer class="bg-white border-t border-gray-200 mt-auto">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            <p class="text-center text-sm text-gray-500">&copy; <?= date('Y') ?> 72 Seaside Vinyl</p>
-        </div>
-    </footer>
+<body>
+
+<header class="site-header">
+    <div class="header-inner">
+        <a href="<?= $this->Url->build('/') ?>" class="site-logo">
+            <span class="logo-record">&#9899;</span>
+            <span class="logo-text">72 Seaside Vinyl</span>
+        </a>
+        <button class="nav-toggle" aria-label="Menu openen" aria-expanded="false">&#9776;</button>
+        <nav class="site-nav" id="site-nav">
+            <a href="#home">Home</a>
+            <a href="#about">Over Ons</a>
+            <a href="#releases">Nieuwste Platen</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <?= $this->Flash->render() ?>
+    <?= $this->fetch('content') ?>
+</main>
+
+<footer class="site-footer">
+    <div class="footer-inner">
+        <p class="footer-brand">72 Seaside Vinyl &mdash; Zierikzee</p>
+        <p class="footer-copy">&copy; <?= date('Y') ?> 72 Seaside Vinyl. Alle rechten voorbehouden.</p>
+    </div>
+</footer>
+
+<script>
+    // Mobile navigation toggle
+    var toggle = document.querySelector('.nav-toggle');
+    var nav = document.getElementById('site-nav');
+    if (toggle && nav) {
+        toggle.addEventListener('click', function () {
+            var open = nav.classList.toggle('open');
+            toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        });
+    }
+    // Close nav when a link is clicked on mobile
+    nav && nav.querySelectorAll('a').forEach(function (link) {
+        link.addEventListener('click', function () {
+            nav.classList.remove('open');
+            toggle && toggle.setAttribute('aria-expanded', 'false');
+        });
+    });
+</script>
+<?= $this->fetch('script') ?>
 </body>
 </html>
