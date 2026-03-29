@@ -79,18 +79,18 @@ return function (RouteBuilder $routes): void {
     });
 
     /*
-     * If you need a different set of middleware or none at all,
-     * open new scope and define routes there.
-     *
-     * ```
-     * $routes->scope('/api', function (RouteBuilder $builder): void {
-     *     // No $builder->applyMiddleware() here.
-     *
-     *     // Parse specified extensions from URLs
-     *     // $builder->setExtensions(['json', 'xml']);
-     *
-     *     // Connect API actions here.
-     * });
-     * ```
+     * Admin section routes using the Admin prefix.
+     * All admin controllers live in src/Controller/Admin/.
      */
+    $routes->prefix('admin', function (RouteBuilder $builder): void {
+        $builder->connect('/', ['controller' => 'Dashboard', 'action' => 'index']);
+
+        // Explicit routes for Releases CRUD including form pages (GET add/edit)
+        $builder->connect('/releases', ['controller' => 'Releases', 'action' => 'index'], ['_name' => 'admin:releases:index']);
+        $builder->connect('/releases/add', ['controller' => 'Releases', 'action' => 'add'], ['_name' => 'admin:releases:add']);
+        $builder->connect('/releases/edit/{id}', ['controller' => 'Releases', 'action' => 'edit'], ['id' => '\d+', '_name' => 'admin:releases:edit', 'pass' => ['id']]);
+        $builder->connect('/releases/delete/{id}', ['controller' => 'Releases', 'action' => 'delete'], ['id' => '\d+', '_name' => 'admin:releases:delete', 'pass' => ['id']]);
+
+        $builder->fallbacks();
+    });
 };

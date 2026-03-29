@@ -61,6 +61,34 @@ class PagesController extends AppController
         }
         $this->set(compact('page', 'subpage'));
 
+        if ($page === 'home') {
+            $latestReleases = $this->latestReleases;
+            try {
+                $dbReleases = $this->fetchTable('Releases')
+                    ->find()
+                    ->where(['in_stock' => true])
+                    ->orderByDesc('created')
+                    ->limit(6)
+                    ->all();
+
+                if ($dbReleases->count() > 0) {
+                    $latestReleases = array_map(function ($release) {
+                        return [
+                            'title' => $release->title,
+                            'artist' => $release->artist,
+                            'genre' => $release->genre,
+                            'price' => number_format((float)$release->price, 2, ',', '.'),
+                            'color' => $release->color,
+                            'label_text' => $release->label_text,
+                        ];
+                    }, $dbReleases->toArray());
+                }
+            } catch (\Exception $e) {
+                // Fall back to hardcoded releases if database is unavailable
+            }
+            $this->set('latestReleases', $latestReleases);
+        }
+
         try {
             return $this->render(implode('/', $path));
         } catch (MissingTemplateException $exception) {
