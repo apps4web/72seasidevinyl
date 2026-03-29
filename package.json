@@ -5,11 +5,13 @@
     "private": true,
     "scripts": {
         "build": "tailwindcss -i ./resources/css/app.css -o ./webroot/css/app.css",
+        "build": "cp node_modules/@fortawesome/fontawesome-pro/css/all.min.css css/ && cp -r node_modules/@fortawesome/fontawesome-pro/webfonts webfonts/"
         "watch": "tailwindcss -i ./resources/css/app.css -o ./webroot/css/app.css --watch",
         "build:minify": "tailwindcss -i ./resources/css/app.css -o ./webroot/css/app.css --minify"
     },
     "devDependencies": {
         "tailwindcss": "^4.2.2",
-        "@tailwindcss/cli": "^4.2.2"
+        "@tailwindcss/cli": "^4.2.2",
+        "@fortawesome/fontawesome-pro": "^6.0.0"
     }
 }

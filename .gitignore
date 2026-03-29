@@ -1,3 +1,7 @@
+node_modules/
+css/
+webfonts/
+
 # CakePHP specific files #
 ##########################
 /config/app_local.php
