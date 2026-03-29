@@ -194,6 +194,25 @@ address { font-style: normal; }
     height: 92px;
 }
 
+/* Mobile menu open state: keep dark navbar with small logo */
+.site-header.has-mobile-menu-open {
+    background: rgba(17, 17, 17, 0.97);
+    border-bottom-color: rgba(201, 168, 76, 0.25);
+    backdrop-filter: blur(6px);
+}
+
+.site-header.has-mobile-menu-open.is-over-hero .logo-img {
+    height: 48px;
+}
+
+.site-header.has-mobile-menu-open.is-over-hero .header-inner {
+    height: var(--header-h);
+}
+
+.site-header.has-mobile-menu-open.is-over-hero .site-logo {
+    margin-top: 0;
+}
+
 .site-nav {
     display: flex;
     gap: 32px;
