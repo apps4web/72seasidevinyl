@@ -1154,7 +1154,7 @@ input[type="text"]:focus,
 
 .border-primary {
   --tw-border-opacity: 1;
-  border-color: rgb(60 80 224 / var(--tw-border-opacity, 1));
+  border-color: rgb(22 118 123 / var(--tw-border-opacity, 1));
 }
 
 .border-stroke {
@@ -1164,7 +1164,7 @@ input[type="text"]:focus,
 
 .bg-\[\#EEF2FF\] {
   --tw-bg-opacity: 1;
-  background-color: rgb(238 242 255 / var(--tw-bg-opacity, 1));
+  background-color: rgb(232 248 249 / var(--tw-bg-opacity, 1));
 }
 
 .bg-\[\#F1F5F9\] {
@@ -1194,12 +1194,12 @@ input[type="text"]:focus,
 
 .bg-primary {
   --tw-bg-opacity: 1;
-  background-color: rgb(60 80 224 / var(--tw-bg-opacity, 1));
+  background-color: rgb(22 118 123 / var(--tw-bg-opacity, 1));
 }
 
 .bg-sidebar {
   --tw-bg-opacity: 1;
-  background-color: rgb(28 36 52 / var(--tw-bg-opacity, 1));
+  background-color: rgb(14 65 67 / var(--tw-bg-opacity, 1));
 }
 
 .bg-success-light {
@@ -1433,7 +1433,7 @@ input[type="text"]:focus,
 
 .text-primary {
   --tw-text-opacity: 1;
-  color: rgb(60 80 224 / var(--tw-text-opacity, 1));
+  color: rgb(22 118 123 / var(--tw-text-opacity, 1));
 }
 
 .text-success {
@@ -1564,7 +1564,7 @@ input[type="text"]:focus,
 
 .hover\:bg-sidebar-hover:hover {
   --tw-bg-opacity: 1;
-  background-color: rgb(51 58 72 / var(--tw-bg-opacity, 1));
+  background-color: rgb(22 118 123 / var(--tw-bg-opacity, 1));
 }
 
 .hover\:bg-opacity-90:hover {
@@ -1573,7 +1573,7 @@ input[type="text"]:focus,
 
 .hover\:text-primary:hover {
   --tw-text-opacity: 1;
-  color: rgb(60 80 224 / var(--tw-text-opacity, 1));
+  color: rgb(22 118 123 / var(--tw-text-opacity, 1));
 }
 
 .hover\:underline:hover {
@@ -1582,17 +1582,17 @@ input[type="text"]:focus,
 
 .focus\:border-primary:focus {
   --tw-border-opacity: 1;
-  border-color: rgb(60 80 224 / var(--tw-border-opacity, 1));
+  border-color: rgb(22 118 123 / var(--tw-border-opacity, 1));
 }
 
 .active\:border-primary:active {
   --tw-border-opacity: 1;
-  border-color: rgb(60 80 224 / var(--tw-border-opacity, 1));
+  border-color: rgb(22 118 123 / var(--tw-border-opacity, 1));
 }
 
 .peer:checked ~ .peer-checked\:bg-primary {
   --tw-bg-opacity: 1;
-  background-color: rgb(60 80 224 / var(--tw-bg-opacity, 1));
+  background-color: rgb(22 118 123 / var(--tw-bg-opacity, 1));
 }
 
 .peer:checked ~ .peer-checked\:after\:translate-x-5::after {
@@ -1686,3 +1686,5 @@ input[type="text"]:focus,
     padding-right: 2.75rem;
   }
 }
+
+.max-w-sm{max-width:24rem}

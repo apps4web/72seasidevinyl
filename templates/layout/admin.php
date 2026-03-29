@@ -19,6 +19,9 @@
 
     <!-- TailAdmin compiled CSS (built from resources/css/admin.css via npm run build:css) -->
     <?= $this->Html->css('admin') ?>
+    <!-- Font Awesome Pro -->
+    <?= $this->Html->css('all.min') ?>
+    <?php $this->Html->script('https://code.jquery.com/jquery-3.7.1.min.js', ['block' => 'scriptBottom']); ?>
 
     <!-- Alpine.js for interactive sidebar/dropdowns -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -43,17 +46,13 @@
     <div class="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6">
         <a href="<?= $this->Url->build(['prefix' => 'Admin', 'controller' => 'Dashboard', 'action' => 'index']) ?>"
            class="flex items-center gap-3">
-            <span class="text-2xl">&#9899;</span>
-            <div>
-                <span class="block text-lg font-bold text-white leading-tight">72 Seaside</span>
-                <span class="block text-xs text-bodydark2 leading-tight">Vinyl &mdash; Admin</span>
-            </div>
+            <img src="<?= $this->Url->image('logo-72-seaside-vinyl.png') ?>"
+                 alt="72 Seaside Vinyl"
+                 class="h-10 w-auto object-contain">
         </a>
         <!-- Close button (mobile) -->
         <button @click="sidebarOpen = false" class="block lg:hidden text-bodydark">
-            <svg class="w-5 h-5 fill-current" viewBox="0 0 320 512">
-                <path d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/>
-            </svg>
+            <i class="fa-solid fa-xmark w-5 h-5"></i>
         </button>
     </div>
 
@@ -69,10 +68,7 @@
                     <li class="sidebar-menu-item <?= $this->request->getParam('controller') === 'Dashboard' ? 'active' : '' ?>">
                         <a href="<?= $this->Url->build(['prefix' => 'Admin', 'controller' => 'Dashboard', 'action' => 'index']) ?>"
                            class="group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-sidebar-hover">
-                            <svg class="w-5 h-5 fill-current" viewBox="0 0 512 512">
-                                <path d="M0 0h192v192H0zm0 0M320 0h192v192H320zm0 0M0 320h192v192H0zm0 0" opacity=".3"/>
-                                <path d="M320 320h192v192H320zm0 0"/>
-                            </svg>
+                            <i class="fa-solid fa-gauge-high w-5 text-center"></i>
                             Dashboard
                         </a>
                     </li>
@@ -81,9 +77,7 @@
                     <li class="sidebar-menu-item <?= $this->request->getParam('controller') === 'Releases' ? 'active' : '' ?>">
                         <a href="<?= $this->Url->build(['prefix' => 'Admin', 'controller' => 'Releases', 'action' => 'index']) ?>"
                            class="group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-sidebar-hover">
-                            <svg class="w-5 h-5 fill-current" viewBox="0 0 512 512">
-                                <path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5 0-200-89.5-200-200S145.5 56 256 56s200 89.5 200 200-89.5 200-200 200zm0-384c-101.7 0-184 82.3-184 184S154.3 440 256 440s184-82.3 184-184S357.7 72 256 72zm0 328c-79.4 0-144-64.6-144-144S176.6 112 256 112s144 64.6 144 144-64.6 144-144 144zm0-232c-48.6 0-88 39.4-88 88s39.4 88 88 88 88-39.4 88-88-39.4-88-88-88zm0 128c-22.1 0-40-17.9-40-40s17.9-40 40-40 40 17.9 40 40-17.9 40-40 40z"/>
-                            </svg>
+                            <i class="fa-solid fa-record-vinyl w-5 text-center"></i>
                             Vinyl Releases
                         </a>
                     </li>
@@ -101,9 +95,7 @@
                         <a href="<?= $this->Url->build('/') ?>"
                            target="_blank"
                            class="group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-sidebar-hover">
-                            <svg class="w-5 h-5 fill-current" viewBox="0 0 512 512">
-                                <path d="M432 320H400a16 16 0 0 0-16 16V448H64V128H208a16 16 0 0 0 16-16V80a16 16 0 0 0-16-16H48A48 48 0 0 0 0 112V464a48 48 0 0 0 48 48H400a48 48 0 0 0 48-48V336A16 16 0 0 0 432 320ZM488 0h-128c-21.4 0-32.1 25.9-17 41l35.7 35.7L135 320.4a24 24 0 0 0 0 34L157 356a24 24 0 0 0 34 0L435.3 133.3 471 169c15 15 41 4.5 41-17V24A24 24 0 0 0 488 0Z"/>
-                            </svg>
+                            <i class="fa-solid fa-arrow-up-right-from-square w-5 text-center"></i>
                             View Website
                         </a>
                     </li>
@@ -128,9 +120,7 @@
             <div class="flex items-center gap-2 sm:gap-4 lg:hidden">
                 <button @click="sidebarOpen = !sidebarOpen"
                         class="block rounded-sm border border-stroke bg-white p-1.5 shadow-sm">
-                    <svg class="w-5 h-5 fill-current" viewBox="0 0 512 512">
-                        <path d="M32 96h448a32 32 0 0 0 0-64H32a32 32 0 0 0 0 64zm448 128H32a32 32 0 0 0 0 64h448a32 32 0 0 0 0-64zm0 192H32a32 32 0 0 0 0 64h448a32 32 0 0 0 0-64z"/>
-                    </svg>
+                    <i class="fa-solid fa-bars w-5 h-5 text-center"></i>
                 </button>
             </div>
 
@@ -174,6 +164,7 @@
 </div>
 <!-- END main content area -->
 
+<?= $this->fetch('scriptBottom') ?>
 <?= $this->fetch('script') ?>
 </body>
 </html>

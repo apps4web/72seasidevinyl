@@ -41,6 +41,12 @@ class ReleasesTable extends Table
         $this->belongsTo('Artists', [
             'foreignKey' => 'artist_id',
         ]);
+
+        $this->belongsToMany('Genres', [
+            'foreignKey' => 'record_id',
+            'targetForeignKey' => 'genre_id',
+            'joinTable' => 'genres_records',
+        ]);
     }
 
     /**

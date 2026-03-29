@@ -31,7 +31,7 @@ class UsersController extends AppController
     public function login(): ?Response
     {
         $this->Authorization->skipAuthorization();
-        $this->viewBuilder()->setLayout('default');
+        $this->viewBuilder()->setLayout('admin_login');
 
         $result = $this->Authentication->getResult();
 

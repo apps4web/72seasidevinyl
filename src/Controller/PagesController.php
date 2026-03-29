@@ -32,6 +32,18 @@ use Cake\View\Exception\MissingTemplateException;
 class PagesController extends AppController
 {
     /**
+     * Known cover filenames for seeded releases.
+     *
+     * @var array<string, string>
+     */
+    private const RELEASE_COVER_MAP = [
+        'dua lipa|radical optimism' => 'dua-lipa-radical-optimism.jpg',
+        'beyonce|cowboy carter' => 'beyonce-cowboy-carter.jpg',
+        'beyoncé|cowboy carter' => 'beyonce-cowboy-carter.jpg',
+        'sabrina carpenter|short n\' sweet' => 'sabrina-carpenter-short-n-sweet.jpg',
+    ];
+
+    /**
      * Fallback release data used when the database is unavailable.
      *
      * @return array<int, array<string, string>>
@@ -46,6 +58,7 @@ class PagesController extends AppController
                 'price' => '29,99',
                 'color' => '#6C3483',
                 'label_text' => 'LP',
+                'cover' => 'dua-lipa-radical-optimism.jpg',
             ],
             [
                 'title' => 'Cowboy Carter',
@@ -54,6 +67,7 @@ class PagesController extends AppController
                 'price' => '34,99',
                 'color' => '#1A5276',
                 'label_text' => '2xLP',
+                'cover' => 'beyonce-cowboy-carter.jpg',
             ],
             [
                 'title' => 'Short n\' Sweet',
@@ -62,8 +76,28 @@ class PagesController extends AppController
                 'price' => '27,99',
                 'color' => '#C0392B',
                 'label_text' => 'LP',
+                'cover' => 'sabrina-carpenter-short-n-sweet.jpg',
             ],
         ];
+    }
+
+    /**
+     * Resolve a cover filename for a release.
+     *
+     * @param string|null $title Release title.
+     * @param string|null $artist Release artist.
+     * @param string|null $cover Cover filename from the database.
+     * @return string|null
+     */
+    private function getReleaseCoverFilename(?string $title, ?string $artist, ?string $cover = null): ?string
+    {
+        if ($cover) {
+            return $cover;
+        }
+
+        $key = mb_strtolower(trim((string)$artist) . '|' . trim((string)$title));
+
+        return self::RELEASE_COVER_MAP[$key] ?? null;
     }
 
     /**
@@ -106,7 +140,7 @@ class PagesController extends AppController
                         'Releases.in_stock' => true,
                         'Releases.is_latest' => true,
                     ])
-                    ->orderByDesc('created')
+                    ->orderByDesc('Releases.created')
                     ->limit(6)
                     ->all();
 
@@ -119,6 +153,7 @@ class PagesController extends AppController
                             'price' => number_format((float)$release->price, 2, ',', '.'),
                             'color' => $release->color,
                             'label_text' => $release->label_text,
+                            'cover' => $this->getReleaseCoverFilename($release->name, $release->artist?->name, $release->cover),
                         ];
                     }, $dbReleases->toArray());
                 }

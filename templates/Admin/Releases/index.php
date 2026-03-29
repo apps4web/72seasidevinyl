@@ -16,9 +16,7 @@ $this->assign('title', 'Vinyl Releases');
     </div>
     <a href="<?= $this->Url->build(['prefix' => 'Admin', 'controller' => 'Releases', 'action' => 'add']) ?>"
        class="inline-flex items-center gap-2 rounded bg-primary py-2 px-4 text-sm font-medium text-white hover:bg-opacity-90">
-        <svg class="w-4 h-4 fill-current" viewBox="0 0 448 512">
-            <path d="M432 256c0 17.7-14.3 32-32 32L240 288l0 160c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-160-160 0c-17.7 0-32-14.3-32-32s14.3-32 32-32l160 0 0-160c0-17.7 14.3-32 32-32s32 14.3 32 32l0 160 160 0c17.7 0 32 14.3 32 32z"/>
-        </svg>
+        <i class="fa-solid fa-plus"></i>
         Add Release
     </a>
 </div>
@@ -28,9 +26,7 @@ $this->assign('title', 'Vinyl Releases');
 
     <?php if ($releases->count() === 0): ?>
     <div class="text-center py-16 text-gray-4">
-        <svg class="w-16 h-16 fill-current mx-auto mb-4 text-gray-3" viewBox="0 0 512 512">
-            <path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5 0-200-89.5-200-200S145.5 56 256 56s200 89.5 200 200-89.5 200-200 200zm0-384c-101.7 0-184 82.3-184 184S154.3 440 256 440s184-82.3 184-184S357.7 72 256 72zm0 328c-79.4 0-144-64.6-144-144S176.6 112 256 112s144 64.6 144 144-64.6 144-144 144zm0-232c-48.6 0-88 39.4-88 88s39.4 88 88 88 88-39.4 88-88-39.4-88-88-88zm0 128c-22.1 0-40-17.9-40-40s17.9-40 40-40 40 17.9 40 40-17.9 40-40 40z"/>
-        </svg>
+        <i class="fa-solid fa-record-vinyl fa-4x mx-auto mb-4 text-gray-3 block text-center"></i>
         <p class="text-lg font-medium mb-2">No releases in catalogue</p>
         <p class="text-sm mb-6">Add your first vinyl release to get started.</p>
         <a href="<?= $this->Url->build(['prefix' => 'Admin', 'controller' => 'Releases', 'action' => 'add']) ?>"

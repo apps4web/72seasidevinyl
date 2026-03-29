@@ -12,9 +12,7 @@ $this->assign('title', 'Add Release');
 <div class="mb-6 flex items-center gap-3">
     <a href="<?= $this->Url->build(['prefix' => 'Admin', 'controller' => 'Releases', 'action' => 'index']) ?>"
        class="text-gray-4 hover:text-primary">
-        <svg class="w-5 h-5 fill-current" viewBox="0 0 448 512">
-            <path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/>
-        </svg>
+        <i class="fa-solid fa-arrow-left fa-lg"></i>
     </a>
     <div>
         <h1 class="text-2xl font-bold text-body-dark">Add New Release</h1>

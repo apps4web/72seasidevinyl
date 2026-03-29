@@ -7,11 +7,11 @@ module.exports = {
     theme: {
         extend: {
             colors: {
-                primary:   '#3C50E0',
-                secondary: '#80CAEE',
-                'body-dark': '#1C2434',
-                'sidebar':   '#1C2434',
-                'sidebar-hover': '#333A48',
+                primary:   '#16767b',
+                secondary: '#93e4e7',
+                'body-dark': '#0e4143',
+                'sidebar':   '#0e4143',
+                'sidebar-hover': '#16767b',
                 'bodydark':  '#AEB7C0',
                 'bodydark1': '#DEE4EE',
                 'bodydark2': '#8A99AF',

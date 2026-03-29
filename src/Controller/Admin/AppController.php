@@ -34,6 +34,6 @@ class AppController extends BaseController
     {
         parent::beforeFilter($event);
 
-        $this->Authorization->authorize($this->request);
+        $this->Authorization->authorize($this->request, 'access');
     }
 }

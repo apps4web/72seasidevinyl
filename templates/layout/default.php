@@ -11,24 +11,26 @@
     <meta name="description" content="72 Seaside Vinyl – Jouw vinyl platenwinkel in Zierikzee. Nieuwe en tweedehands platen, een passioneel team en een warme sfeer.">
     <title>72 Seaside Vinyl<?= $this->fetch('title') ? ' | ' . $this->fetch('title') : '' ?></title>
     <?= $this->Html->meta('icon') ?>
-    <?= $this->Html->css(['normalize.min', 'seaside']) ?>
+    <?= $this->Html->css(['normalize.min', 'seaside', 'all.min']) ?>
+    <?php $this->Html->script('https://code.jquery.com/jquery-3.7.1.min.js', ['block' => 'scriptBottom']); ?>
+    <?php $this->Html->script('site', ['block' => 'scriptBottom']); ?>
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
 </head>
 <body>
+<?php $onePagerBaseUrl = $this->Url->build('/'); ?>
 
 <header class="site-header">
     <div class="header-inner">
         <a href="<?= $this->Url->build('/') ?>" class="site-logo">
-            <span class="logo-record">&#9899;</span>
-            <span class="logo-text">72 Seaside Vinyl</span>
+            <?= $this->Html->image('logo-72-seaside-vinyl.png', ['alt' => '72 Seaside Vinyl', 'class' => 'logo-img']) ?>
         </a>
         <button class="nav-toggle" aria-label="Menu openen" aria-expanded="false">&#9776;</button>
         <nav class="site-nav" id="site-nav">
-            <a href="#home">Home</a>
-            <a href="#about">Over Ons</a>
-            <a href="#releases">Nieuwste Platen</a>
-            <a href="#contact">Contact</a>
+            <a href="<?= $onePagerBaseUrl ?>#home">Home</a>
+            <a href="<?= $onePagerBaseUrl ?>#about">Over Ons</a>
+            <a href="<?= $onePagerBaseUrl ?>#releases">New Releases</a>
+            <a href="<?= $onePagerBaseUrl ?>#contact">Contact</a>
         </nav>
     </div>
 </header>
@@ -44,25 +46,7 @@
         <p class="footer-copy">&copy; <?= date('Y') ?> 72 Seaside Vinyl. Alle rechten voorbehouden.</p>
     </div>
 </footer>
-
-<script>
-    // Mobile navigation toggle
-    var toggle = document.querySelector('.nav-toggle');
-    var nav = document.getElementById('site-nav');
-    if (toggle && nav) {
-        toggle.addEventListener('click', function () {
-            var open = nav.classList.toggle('open');
-            toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-        });
-    }
-    // Close nav when a link is clicked on mobile
-    nav && nav.querySelectorAll('a').forEach(function (link) {
-        link.addEventListener('click', function () {
-            nav.classList.remove('open');
-            toggle && toggle.setAttribute('aria-expanded', 'false');
-        });
-    });
-</script>
+<?= $this->fetch('scriptBottom') ?>
 <?= $this->fetch('script') ?>
 </body>
 </html>

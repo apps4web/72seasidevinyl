@@ -164,14 +164,9 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
             'password' => 'password',
         ];
 
-        $service->loadIdentifier('Authentication.Password', [
-            'fields' => $fields,
-        ]);
-
         $service->loadAuthenticator('Authentication.Session');
         $service->loadAuthenticator('Authentication.Form', [
             'fields' => $fields,
-            'loginUrl' => Router::url('/admin/login'),
         ]);
 
         return $service;

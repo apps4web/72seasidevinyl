@@ -21,7 +21,8 @@ class DashboardController extends AppController
         $inStockCount = $releasesTable->find()->where(['in_stock' => true])->count();
         $outOfStockCount = $releasesTable->find()->where(['in_stock' => false])->count();
         $recentReleases = $releasesTable->find()
-            ->orderByDesc('created')
+            ->contain(['Artists', 'Genres'])
+            ->orderByDesc('Releases.created')
             ->limit(5)
             ->all();
 

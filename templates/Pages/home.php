@@ -10,7 +10,7 @@ $this->assign('title', 'Home');
      HERO SECTION
      ============================================================ -->
 <section class="hero" id="home">
-    <img src="https://github.com/user-attachments/assets/abc62b71-968a-4a70-9063-b47698d9a053"
+    <img src="<?= $this->Url->image('store-exterior.jpg') ?>"
          alt="72 Seaside Vinyl – de winkel aan Zierikzee"
          class="hero-bg-img"
          loading="eager">
@@ -19,52 +19,6 @@ $this->assign('title', 'Home');
         <h1 class="hero-title">72 Seaside Vinyl</h1>
         <p class="hero-subtitle">Jouw platenwinkel aan de kust &mdash; Zierikzee</p>
         <a href="#about" class="btn btn-primary">Ontdek Onze Winkel</a>
-    </div>
-</section>
-
-<!-- ============================================================
-     STORE PHOTOS SECTION
-     ============================================================ -->
-<section class="store-photos">
-    <div class="container">
-        <div class="photo-grid">
-            <div class="photo-item photo-large">
-                <div class="photo-frame">
-                    <img src="https://github.com/user-attachments/assets/e0f8dcd3-8329-4f07-b70f-6e36283053f1"
-                         alt="Ons assortiment vinyl platen op de schappen"
-                         class="photo-img"
-                         loading="lazy">
-                    <span class="photo-caption">Ons Assortiment</span>
-                </div>
-            </div>
-            <div class="photo-item">
-                <div class="photo-frame">
-                    <img src="https://github.com/user-attachments/assets/79bb6caf-93ca-4ddc-af05-4c45a535a1b4"
-                         alt="De Records sectie met kassabalie"
-                         class="photo-img"
-                         loading="lazy">
-                    <span class="photo-caption">Records</span>
-                </div>
-            </div>
-            <div class="photo-item">
-                <div class="photo-frame">
-                    <img src="https://github.com/user-attachments/assets/7c354ca9-a7b9-4c2d-902c-1a270bdc87a6"
-                         alt="De gezellige koffiehoek en balie"
-                         class="photo-img"
-                         loading="lazy">
-                    <span class="photo-caption">Luisterhoek &amp; Koffie</span>
-                </div>
-            </div>
-            <div class="photo-item">
-                <div class="photo-frame">
-                    <img src="https://github.com/user-attachments/assets/abc62b71-968a-4a70-9063-b47698d9a053"
-                         alt="De buitenkant van 72 Seaside Vinyl in Zierikzee"
-                         class="photo-img"
-                         loading="lazy">
-                    <span class="photo-caption">De Winkel</span>
-                </div>
-            </div>
-        </div>
     </div>
 </section>
 
@@ -101,8 +55,8 @@ $this->assign('title', 'Home');
             <div class="about-highlights">
                 <div class="highlight-card">
                     <span class="highlight-icon">&#9679;</span>
-                    <h4>Nieuwe Releases</h4>
-                    <p>Altijd de nieuwste platen op voorraad, week na week.</p>
+                    <h4>New Releases</h4>
+                    <p>Always the latest records in stock, week after week.</p>
                 </div>
                 <div class="highlight-card">
                     <span class="highlight-icon">&#9679;</span>
@@ -125,12 +79,123 @@ $this->assign('title', 'Home');
 </section>
 
 <!-- ============================================================
+     STORE PHOTOS SECTION
+     ============================================================ -->
+<section class="store-photos">
+    <div class="container">
+        <div class="photo-grid">
+            <div class="photo-item photo-large">
+                <button
+                    type="button"
+                    class="photo-frame"
+                    data-gallery-trigger
+                    data-gallery-src="<?= $this->Url->image('vinyl-shelves.jpg') ?>"
+                    data-gallery-alt="Ons assortiment vinyl platen op de schappen"
+                    data-gallery-caption="Ons Assortiment"
+                    aria-label="Bekijk foto groot: Ons Assortiment"
+                >
+                    <img src="<?= $this->Url->image('vinyl-shelves.jpg') ?>"
+                         alt="Ons assortiment vinyl platen op de schappen"
+                         class="photo-img"
+                         loading="lazy">
+                    <span class="photo-caption">Ons Assortiment</span>
+                </button>
+            </div>
+            <div class="photo-item">
+                <button
+                    type="button"
+                    class="photo-frame"
+                    data-gallery-trigger
+                    data-gallery-src="<?= $this->Url->image('records-cashier.jpg') ?>"
+                    data-gallery-alt="De Records sectie met kassabalie"
+                    data-gallery-caption="Records"
+                    aria-label="Bekijk foto groot: Records"
+                >
+                    <img src="<?= $this->Url->image('records-cashier.jpg') ?>"
+                         alt="De Records sectie met kassabalie"
+                         class="photo-img"
+                         loading="lazy">
+                    <span class="photo-caption">Records</span>
+                </button>
+            </div>
+            <div class="photo-item">
+                <button
+                    type="button"
+                    class="photo-frame"
+                    data-gallery-trigger
+                    data-gallery-src="<?= $this->Url->image('listening-corner.jpg') ?>"
+                    data-gallery-alt="De gezellige koffiehoek en balie"
+                    data-gallery-caption="Luisterhoek &amp; Koffie"
+                    aria-label="Bekijk foto groot: Luisterhoek en Koffie"
+                >
+                    <img src="<?= $this->Url->image('listening-corner.jpg') ?>"
+                         alt="De gezellige koffiehoek en balie"
+                         class="photo-img"
+                         loading="lazy">
+                    <span class="photo-caption">Luisterhoek &amp; Koffie</span>
+                </button>
+            </div>
+            <div class="photo-item">
+                <button
+                    type="button"
+                    class="photo-frame"
+                    data-gallery-trigger
+                    data-gallery-src="<?= $this->Url->image('store-interior.jpeg') ?>"
+                    data-gallery-alt="Foto van de platenwinkel"
+                    data-gallery-caption="In De Winkel"
+                    aria-label="Bekijk foto groot: In De Winkel"
+                >
+                    <img src="<?= $this->Url->image('store-interior.jpeg') ?>"
+                         alt="Foto van de platenwinkel"
+                         class="photo-img"
+                         loading="lazy">
+                    <span class="photo-caption">In De Winkel</span>
+                </button>
+            </div>
+            <div class="photo-item">
+                <button
+                    type="button"
+                    class="photo-frame"
+                    data-gallery-trigger
+                    data-gallery-src="<?= $this->Url->image('store-ambience.jpeg') ?>"
+                    data-gallery-alt="Extra sfeerbeeld van 72 Seaside Vinyl"
+                    data-gallery-caption="Sfeerbeeld"
+                    aria-label="Bekijk foto groot: Sfeerbeeld"
+                >
+                    <img src="<?= $this->Url->image('store-ambience.jpeg') ?>"
+                         alt="Extra sfeerbeeld van 72 Seaside Vinyl"
+                         class="photo-img"
+                         loading="lazy">
+                    <span class="photo-caption">Sfeerbeeld</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="gallery-lightbox" data-gallery-lightbox hidden aria-hidden="true">
+    <button type="button" class="gallery-lightbox-close" data-gallery-close aria-label="Sluit fotoviewer">
+        <i class="fa-light fa-xmark" aria-hidden="true"></i>
+    </button>
+    <button type="button" class="gallery-lightbox-nav gallery-lightbox-prev" data-gallery-prev aria-label="Vorige foto">
+        <i class="fa-light fa-chevron-left" aria-hidden="true"></i>
+    </button>
+    <figure class="gallery-lightbox-figure">
+        <img src="" alt="" class="gallery-lightbox-image" data-gallery-image>
+        <figcaption class="gallery-lightbox-caption" data-gallery-caption></figcaption>
+    </figure>
+    <button type="button" class="gallery-lightbox-nav gallery-lightbox-next" data-gallery-next aria-label="Volgende foto">
+        <i class="fa-light fa-chevron-right" aria-hidden="true"></i>
+    </button>
+</div>
+
+<!-- ============================================================
      LATEST RELEASES SECTION
      ============================================================ -->
 <section class="releases" id="releases">
     <div class="container">
         <div class="section-header">
-            <h2>Nieuwste Platen</h2>
+            <h2>New Releases</h2>
             <div class="section-divider"></div>
             <p class="section-intro">Bekijk onze meest recente aanwinsten &mdash; vers van de pers en klaar om gedraaid te worden.</p>
         </div>
@@ -138,9 +203,18 @@ $this->assign('title', 'Home');
             <?php foreach ($latestReleases as $release) : ?>
             <div class="release-card">
                 <div class="release-cover" style="background-color: <?= h($release['color']) ?>;">
+                    <?php if (!empty($release['cover'])) : ?>
+                    <img
+                        src="<?= $this->Url->image('covers/' . $release['cover']) ?>"
+                        alt="<?= h($release['artist']) ?> - <?= h($release['title']) ?>"
+                        class="release-cover-img"
+                        loading="lazy"
+                    >
+                    <?php else : ?>
                     <div class="record-visual">
                         <div class="record-label"><?= h($release['label_text']) ?></div>
                     </div>
+                    <?php endif; ?>
                 </div>
                 <div class="release-info">
                     <h4 class="release-title"><?= h($release['title']) ?></h4>
@@ -171,16 +245,16 @@ $this->assign('title', 'Home');
         <div class="contact-content">
             <div class="contact-info">
                 <div class="contact-block">
-                    <h3>&#128205; Adres</h3>
+                    <h3><i class="fa-solid fa-location-dot contact-icon" aria-hidden="true"></i> Adres</h3>
                     <address>
                         <strong>72 Seaside Vinyl</strong><br>
-                        Havenplein 72<br>
-                        4301 AB Zierikzee<br>
+                        Sint Domusstraat 17<br>
+                        4301 CP Zierikzee<br>
                         Zeeland, Nederland
                     </address>
                 </div>
                 <div class="contact-block">
-                    <h3>&#128337; Openingstijden</h3>
+                    <h3><i class="fa-solid fa-clock contact-icon" aria-hidden="true"></i> Openingstijden</h3>
                     <table class="hours-table">
                         <tr><td>Maandag</td><td>Gesloten</td></tr>
                         <tr><td>Dinsdag &ndash; Vrijdag</td><td>10:00 &ndash; 18:00</td></tr>
@@ -189,22 +263,22 @@ $this->assign('title', 'Home');
                     </table>
                 </div>
                 <div class="contact-block">
-                    <h3>&#128222; Bereikbaarheid</h3>
+                    <h3><i class="fa-solid fa-phone contact-icon" aria-hidden="true"></i> Bereikbaarheid</h3>
                     <p>
                         <strong>Telefoon:</strong> <a href="tel:+31111000000">+31 (0)111 00 00 00</a><br>
                         <strong>E-mail:</strong> <a href="mailto:info@72seasidevinyl.nl">info@72seasidevinyl.nl</a>
                     </p>
                     <div class="social-links">
-                        <a href="#" class="social-link" aria-label="Instagram">&#9679; Instagram</a>
-                        <a href="#" class="social-link" aria-label="Facebook">&#9679; Facebook</a>
+                        <a href="#" class="social-link" aria-label="Instagram"><i class="fa-brands fa-instagram contact-icon" aria-hidden="true"></i> Instagram</a>
+                        <a href="#" class="social-link" aria-label="Facebook"><i class="fa-brands fa-facebook contact-icon" aria-hidden="true"></i> Facebook</a>
                     </div>
                 </div>
             </div>
             <div class="contact-map">
                 <div class="map-placeholder">
-                    <p>&#128205;</p>
+                    <p><i class="fa-solid fa-map-location-dot" aria-hidden="true"></i></p>
                     <p><strong>Zierikzee</strong></p>
-                    <p>Havenplein 72</p>
+                    <p>Sint Domusstraat 17</p>
                     <p><small>Kaart volgt binnenkort</small></p>
                 </div>
             </div>
