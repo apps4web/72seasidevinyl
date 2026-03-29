@@ -1,6 +1,6 @@
 {
-    "name": "cakephp/app",
-    "description": "CakePHP skeleton app",
+    "name": "apps4web/72seasidevinyl",
+    "description": "App for 72 Seaside Vinyl in Zierikzee",
     "license": "MIT",
     "type": "project",
     "homepage": "https://cakephp.org",

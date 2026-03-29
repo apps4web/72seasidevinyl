@@ -10,6 +10,10 @@ $this->assign('title', 'Home');
      HERO SECTION
      ============================================================ -->
 <section class="hero" id="home">
+    <img src="https://github.com/user-attachments/assets/abc62b71-968a-4a70-9063-b47698d9a053"
+         alt="72 Seaside Vinyl – de winkel aan Zierikzee"
+         class="hero-bg-img"
+         loading="eager">
     <div class="hero-overlay"></div>
     <div class="hero-content">
         <h1 class="hero-title">72 Seaside Vinyl</h1>
@@ -25,23 +29,39 @@ $this->assign('title', 'Home');
     <div class="container">
         <div class="photo-grid">
             <div class="photo-item photo-large">
-                <div class="photo-placeholder photo-storefront">
-                    <span class="photo-label">De Winkel</span>
+                <div class="photo-frame">
+                    <img src="https://github.com/user-attachments/assets/e0f8dcd3-8329-4f07-b70f-6e36283053f1"
+                         alt="Ons assortiment vinyl platen op de schappen"
+                         class="photo-img"
+                         loading="lazy">
+                    <span class="photo-caption">Ons Assortiment</span>
                 </div>
             </div>
             <div class="photo-item">
-                <div class="photo-placeholder photo-records">
-                    <span class="photo-label">Ons Assortiment</span>
+                <div class="photo-frame">
+                    <img src="https://github.com/user-attachments/assets/79bb6caf-93ca-4ddc-af05-4c45a535a1b4"
+                         alt="De Records sectie met kassabalie"
+                         class="photo-img"
+                         loading="lazy">
+                    <span class="photo-caption">Records</span>
                 </div>
             </div>
             <div class="photo-item">
-                <div class="photo-placeholder photo-interior">
-                    <span class="photo-label">Interieur</span>
+                <div class="photo-frame">
+                    <img src="https://github.com/user-attachments/assets/7c354ca9-a7b9-4c2d-902c-1a270bdc87a6"
+                         alt="De gezellige koffiehoek en balie"
+                         class="photo-img"
+                         loading="lazy">
+                    <span class="photo-caption">Luisterhoek &amp; Koffie</span>
                 </div>
             </div>
             <div class="photo-item">
-                <div class="photo-placeholder photo-listening">
-                    <span class="photo-label">Luisterhoek</span>
+                <div class="photo-frame">
+                    <img src="https://github.com/user-attachments/assets/abc62b71-968a-4a70-9063-b47698d9a053"
+                         alt="De buitenkant van 72 Seaside Vinyl in Zierikzee"
+                         class="photo-img"
+                         loading="lazy">
+                    <span class="photo-caption">De Winkel</span>
                 </div>
             </div>
         </div>
