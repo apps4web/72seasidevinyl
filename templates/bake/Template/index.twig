@@ -1,0 +1,112 @@
+{#
+/**
+ * Project bake template override for index pages.
+ */
+#}
+<?php
+/**
+ * @var \{{ namespace }}\View\AppView $this
+ * @var iterable<\{{ entityClass }}> ${{ pluralVar }}
+ */
+
+$this->viewBuilder()->setLayout('admin');
+$this->assign('title', '{{ pluralHumanName }}');
+?>
+{% set fields = Bake.filterFields(fields, schema, modelObject, indexColumns, ['binary', 'text']) %}
+
+<div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+    <div>
+        <h1 class="text-2xl font-bold text-body-dark">{{ pluralHumanName }}</h1>
+        <p class="mt-1 text-sm text-gray-4">Manage {{ pluralHumanName|lower }}</p>
+    </div>
+    <?= $this->Html->link(
+        __('Add {{ singularHumanName }}'),
+        ['action' => 'add'],
+        ['class' => 'inline-flex items-center gap-2 rounded bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-opacity-90']
+    ) ?>
+</div>
+
+<div class="rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default sm:px-7.5 xl:pb-1">
+    <?php if (${{ pluralVar }}->count() === 0): ?>
+    <div class="py-16 text-center text-gray-4">
+        <i class="fa-solid fa-table-list mx-auto mb-4 block text-center text-4xl text-gray-3"></i>
+        <p class="mb-2 text-lg font-medium">No {{ pluralHumanName|lower }} found</p>
+        <p class="mb-6 text-sm">Add your first {{ singularHumanName|lower }} to get started.</p>
+        <?= $this->Html->link(
+            __('Add {{ singularHumanName }}'),
+            ['action' => 'add'],
+            ['class' => 'inline-flex items-center gap-2 rounded bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-opacity-90']
+        ) ?>
+    </div>
+    <?php else: ?>
+    <div class="max-w-full overflow-x-auto">
+        <table class="w-full table-auto">
+            <thead>
+                <tr class="bg-gray-2 text-left">
+{% for field in fields %}
+                    <th class="min-w-[160px] px-4 py-4 font-medium text-body-dark"><?= $this->Paginator->sort('{{ field }}') ?></th>
+{% endfor %}
+                    <th class="px-4 py-4 font-medium text-body-dark">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach (${{ pluralVar }} as ${{ singularVar }}): ?>
+                <tr class="border-b border-stroke hover:bg-gray-1">
+{% for field in fields %}
+    {%~ set isKey = false %}
+    {%~ if associations.BelongsTo is defined %}
+        {%~ for alias, details in associations.BelongsTo %}
+            {%~ if field == details.foreignKey %}
+                {%~ set isKey = true %}
+                    <td class="px-4 py-3 text-gray-4"><?= ${{ singularVar }}->hasValue('{{ details.property }}') ? h(${{ singularVar }}->{{ details.property }}->{{ details.displayField }}) : '-' ?></td>
+            {%~ endif %}
+        {%~ endfor %}
+    {%~ endif %}
+    {%~ if isKey is not same as(true) %}
+        {%~ set columnData = Bake.columnData(field, schema) %}
+        {%~ set supportsLabel = Bake.enumSupportsLabel(field, schema) %}
+        {%~ if columnData.type starts with 'enum-' %}
+                    <td class="px-4 py-3 text-gray-4"><?= ${{ singularVar }}->{{ field }} === null ? '-' : h(${{ singularVar }}->{{ field }}->{% if supportsLabel %}label(){% else %}value{% endif %}) ?></td>
+        {%~ elseif columnData.type in ['integer', 'float', 'decimal', 'biginteger', 'smallinteger', 'tinyinteger'] %}
+                    <td class="px-4 py-3 font-medium text-body-dark"><?= ${{ singularVar }}->{{ field }} === null ? '-' : $this->Number->format(${{ singularVar }}->{{ field }}) ?></td>
+        {%~ else %}
+                    <td class="px-4 py-3 text-gray-4"><?= ${{ singularVar }}->{{ field }} === null || ${{ singularVar }}->{{ field }} === '' ? '-' : h(${{ singularVar }}->{{ field }}) ?></td>
+        {%~ endif %}
+    {%~ endif %}
+{% endfor %}
+{% set pk = '$' ~ singularVar ~ '->' ~ primaryKey[0] %}
+                    <td class="px-4 py-3">
+                        <div class="flex items-center gap-3">
+                            <?= $this->Html->link(
+                                __('Edit'),
+                                ['action' => 'edit', {{ pk|raw }}],
+                                ['class' => 'text-sm font-medium text-primary hover:underline']
+                            ) ?>
+                            <?= $this->Form->postLink(
+                                __('Delete'),
+                                ['action' => 'delete', {{ pk|raw }}],
+                                [
+                                    'confirm' => __('Are you sure you want to delete # {0}?', {{ pk|raw }}),
+                                    'class' => 'text-sm font-medium text-danger hover:underline',
+                                ]
+                            ) ?>
+                        </div>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="flex flex-col items-center justify-between gap-4 px-4 py-4 sm:flex-row">
+        <p class="text-sm text-gray-4">
+            <?= $this->Paginator->counter(__('Page {{ '{{' }}page{{ '}}' }} of {{ '{{' }}pages{{ '}}' }}, showing {{ '{{' }}current{{ '}}' }} record(s) out of {{ '{{' }}count{{ '}}' }} total')) ?>
+        </p>
+        <div class="flex items-center gap-2">
+            <?= $this->Paginator->prev('‹ Prev', ['class' => 'inline-flex items-center rounded border border-stroke bg-white px-3 py-1.5 text-sm font-medium text-body-dark hover:bg-gray-2']) ?>
+            <?= $this->Paginator->numbers(['class' => 'inline-flex items-center rounded border border-stroke bg-white px-3 py-1.5 text-sm font-medium text-body-dark hover:bg-gray-2', 'currentClass' => 'inline-flex items-center rounded border border-primary bg-primary px-3 py-1.5 text-sm font-medium text-white']) ?>
+            <?= $this->Paginator->next('Next ›', ['class' => 'inline-flex items-center rounded border border-stroke bg-white px-3 py-1.5 text-sm font-medium text-body-dark hover:bg-gray-2']) ?>
+        </div>
+    </div>
+    <?php endif; ?>
+</div>

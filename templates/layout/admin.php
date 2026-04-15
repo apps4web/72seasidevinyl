@@ -73,6 +73,15 @@
                         </a>
                     </li>
 
+                    <!-- Records -->
+                    <li class="sidebar-menu-item <?= $this->request->getParam('controller') === 'Records' ? 'active' : '' ?>">
+                        <a href="<?= $this->Url->build(['prefix' => false, 'controller' => 'Records', 'action' => 'index']) ?>"
+                           class="group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-sidebar-hover">
+                            <i class="fa-solid fa-compact-disc w-5 text-center"></i>
+                            Records
+                        </a>
+                    </li>
+
                     <!-- Releases -->
                     <li class="sidebar-menu-item <?= $this->request->getParam('controller') === 'Releases' ? 'active' : '' ?>">
                         <a href="<?= $this->Url->build(['prefix' => 'Admin', 'controller' => 'Releases', 'action' => 'index']) ?>"

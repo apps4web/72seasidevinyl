@@ -29,11 +29,14 @@ class ReleasesSeed extends BaseSeed
                 [
                     'username' => 'admin',
                     'email' => 'admin@72seasidevinyl.nl',
+                    'role' => 'admin',
                     'password' => password_hash('ChangeMe123!', PASSWORD_BCRYPT),
                     'created' => $now,
                     'modified' => $now,
                 ],
             ])->save();
+        } else {
+            $this->execute("UPDATE users SET role = 'admin' WHERE username = 'admin'");
         }
 
         // Ensure some artists exist first

@@ -1,0 +1,131 @@
+{#
+/**
+ * Project bake template override for edit pages.
+ */
+#}
+<?php
+/**
+ * @var \{{ namespace }}\View\AppView $this
+ * @var \{{ entityClass }} ${{ singularVar }}
+{% if associations.BelongsTo is defined %}
+    {%~ for assocName, assocData in associations.BelongsTo %}
+ * @var string[]|\Cake\Collection\CollectionInterface ${{ assocData.variable }}
+    {%~ endfor %}
+{% endif %}
+{% if associations.BelongsToMany is defined %}
+    {%~ for assocName, assocData in associations.BelongsToMany %}
+ * @var string[]|\Cake\Collection\CollectionInterface ${{ assocData.variable }}
+    {%~ endfor %}
+{% endif %}
+ */
+
+$this->viewBuilder()->setLayout('admin');
+$this->assign('title', 'Edit {{ singularHumanName }}');
+
+echo $this->Html->css('tom-select', ['block' => 'css']);
+$this->Html->script('tom-select.complete.min', ['block' => 'scriptBottom']);
+?>
+{% set fields = Bake.filterFields(fields, schema, modelObject) %}
+
+<div class="mb-6">
+    <a href="<?= $this->Url->build(['action' => 'index']) ?>" class="inline-flex items-center gap-2 text-sm text-gray-4 hover:text-primary">
+        <i class="fa-solid fa-arrow-left"></i>
+        Back to {{ pluralHumanName }}
+    </a>
+    <div class="mt-3">
+        <h1 class="text-2xl font-bold text-body-dark">Edit {{ singularHumanName }}</h1>
+        <p class="mt-1 text-sm text-gray-4"><?= h(${{ singularVar }}->{{ displayField }}) ?></p>
+    </div>
+</div>
+
+<div class="rounded-sm border border-stroke bg-white shadow-default">
+    <div class="border-b border-stroke px-7 py-4">
+        <h3 class="font-medium text-body-dark">{{ singularHumanName }} Information</h3>
+    </div>
+    <div class="p-7">
+        <?= $this->Form->create(${{ singularVar }}, ['class' => 'space-y-6']) ?>
+
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+{% for field in fields %}
+    {%~ if field not in primaryKey %}
+        {%~ if keyFields[field] is defined %}
+            {%~ set fieldData = Bake.columnData(field, schema) %}
+            <div>
+                <label class="mb-2.5 block text-sm font-medium text-body-dark">{{ field|humanize }}</label>
+                <?= $this->Form->control('{{ field }}', [
+                    'label' => false,
+                    'options' => ${{ keyFields[field] }},{% if fieldData.null %}
+                    'empty' => true,{% endif %}
+                    'class' => 'w-full rounded border border-stroke bg-gray-1 px-5 py-3 text-sm font-medium text-body-dark outline-none transition focus:border-primary active:border-primary',
+                ]) ?>
+            </div>
+        {%~ elseif field not in ['created', 'modified', 'updated'] %}
+            {%~ set fieldData = Bake.columnData(field, schema) %}
+            <div>
+                <label class="mb-2.5 block text-sm font-medium text-body-dark">{{ field|humanize }}</label>
+                <?= $this->Form->control('{{ field }}', [
+                    'label' => false,{% if fieldData.type in ['date', 'datetime', 'time'] and fieldData.null %}
+                    'empty' => true,{% endif %}
+                    'class' => 'w-full rounded border border-stroke bg-gray-1 px-5 py-3 text-sm font-medium text-body-dark outline-none transition focus:border-primary active:border-primary',
+                ]) ?>
+            </div>
+        {%~ endif %}
+    {%~ endif %}
+{% endfor %}
+{% if associations.BelongsToMany is defined %}
+    {%~ for assocName, assocData in associations.BelongsToMany %}
+            <div>
+                <label class="mb-2.5 block text-sm font-medium text-body-dark">{{ assocData.humanName }}</label>
+                <?= $this->Form->control('{{ assocData.property }}._ids', [
+                    'label' => false,
+                    'options' => ${{ assocData.variable }},
+                    'id' => '{{ assocData.property }}-select-edit',
+                    'class' => 'w-full rounded border border-stroke bg-gray-1 px-5 py-3 text-sm text-body-dark outline-none transition focus:border-primary active:border-primary',
+                ]) ?>
+            </div>
+    {%~ endfor %}
+{% endif %}
+        </div>
+
+{% set pk = '$' ~ singularVar ~ '->' ~ primaryKey[0] %}
+        <div class="flex items-center gap-4 border-t border-stroke pt-4">
+            <?= $this->Form->button(__('Save Changes'), [
+                'class' => 'inline-flex cursor-pointer items-center gap-2 rounded bg-primary px-8 py-3 text-sm font-medium text-white hover:bg-opacity-90',
+            ]) ?>
+            <a href="<?= $this->Url->build(['action' => 'index']) ?>"
+               class="inline-flex items-center gap-2 rounded border border-stroke px-8 py-3 text-sm font-medium text-body-dark hover:bg-gray-2">
+                Cancel
+            </a>
+            <?= $this->Form->postLink(
+                __('Delete {{ singularHumanName }}'),
+                ['action' => 'delete', {{ pk|raw }}],
+                [
+                    'confirm' => __('Are you sure you want to delete # {0}?', {{ pk|raw }}),
+                    'class' => 'ml-auto text-sm font-medium text-danger hover:underline',
+                ]
+            ) ?>
+        </div>
+
+        <?= $this->Form->end() ?>
+    </div>
+</div>
+
+<?php $this->append('scriptBottom'); ?>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+{% if associations.BelongsToMany is defined %}
+    {%~ for assocName, assocData in associations.BelongsToMany %}
+    var {{ assocData.property }}Select = document.getElementById('{{ assocData.property }}-select-edit');
+    if ({{ assocData.property }}Select && !{{ assocData.property }}Select.tomselect) {
+        new TomSelect({{ assocData.property }}Select, {
+            plugins: ['remove_button'],
+            create: false,
+            placeholder: 'Type to search...',
+            maxOptions: 500,
+        });
+    }
+    {%~ endfor %}
+{% endif %}
+});
+</script>
+<?php $this->end(); ?>

@@ -4,13 +4,15 @@
     "description": "App for 72 Seaside Vinyl in Zierikzee",
     "private": true,
     "scripts": {
-        "build": "tailwindcss -i ./resources/css/app.css -o ./webroot/css/app.css && cp node_modules/@fortawesome/fontawesome-pro/css/all.min.css webroot/css/ && cp -r node_modules/@fortawesome/fontawesome-pro/webfonts webroot/webfonts",
+        "build": "tailwindcss -i ./resources/css/app.css -o ./webroot/css/app.css && cp node_modules/@fortawesome/fontawesome-pro/css/all.min.css webroot/css/ && cp -r node_modules/@fortawesome/fontawesome-pro/webfonts webroot/webfonts && cp node_modules/tom-select/dist/css/tom-select.css webroot/css/ && cp node_modules/tom-select/dist/js/tom-select.complete.min.js webroot/js/",
         "watch": "tailwindcss -i ./resources/css/app.css -o ./webroot/css/app.css --watch",
-        "build:minify": "tailwindcss -i ./resources/css/app.css -o ./webroot/css/app.css --minify"
+        "build:minify": "tailwindcss -i ./resources/css/app.css -o ./webroot/css/app.css --minify && cp node_modules/tom-select/dist/css/tom-select.css webroot/css/ && cp node_modules/tom-select/dist/js/tom-select.complete.min.js webroot/js/"
     },
     "devDependencies": {
-        "tailwindcss": "^4.2.2",
+        "@fortawesome/fontawesome-pro": "^6.0.0",
+        "tom-select": "^2.4.3"
         "@tailwindcss/cli": "^4.2.2",
-        "@fortawesome/fontawesome-pro": "^6.0.0"
+        "tailwindcss": "^4.2.2",
+        "tom-select": "^2.5.2"
     }
 }
