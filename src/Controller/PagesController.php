@@ -16,6 +16,7 @@ declare(strict_types=1);
  */
 namespace App\Controller;
 
+use App\Form\ContactForm;
 use Cake\Core\Configure;
 use Cake\Http\Exception\ForbiddenException;
 use Cake\Http\Exception\NotFoundException;
@@ -31,6 +32,27 @@ use Cake\View\Exception\MissingTemplateException;
  */
 class PagesController extends AppController
 {
+    /**
+     * Handle contact form submissions.
+     *
+     * @return \Cake\Http\Response
+     */
+    public function contact(): Response
+    {
+        $this->request->allowMethod(['post']);
+
+        $form = new ContactForm();
+        $data = (array)$this->request->getData();
+
+        if ($form->execute($data)) {
+            $this->Flash->success(__('Bedankt! Je bericht is verzonden. We nemen zo snel mogelijk contact op.'));
+        } else {
+            $this->Flash->error(__('Je bericht kon niet worden verzonden. Controleer de velden en probeer opnieuw.'));
+        }
+
+        return $this->redirect('/#contact');
+    }
+
     /**
      * Known cover filenames for seeded releases.
      *

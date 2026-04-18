@@ -261,6 +261,12 @@ return [
         ],
     ],
 
+    'Contact' => [
+        'ownerEmail' => env('CONTACT_OWNER_EMAIL', 'info@72seasidevinyl.nl'),
+        'fromEmail' => env('CONTACT_FROM_EMAIL', 'noreply@72seasidevinyl.nl'),
+        'fromName' => env('CONTACT_FROM_NAME', '72 Seaside Vinyl Contactformulier'),
+    ],
+
     /*
      * Connection information used by the ORM to connect
      * to your application's datastores.

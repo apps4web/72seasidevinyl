@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Vinyl record favicon">
+  <defs>
+    <radialGradient id="recordGrad" cx="50%" cy="45%" r="65%">
+      <stop offset="0%" stop-color="#2a2a2a"/>
+      <stop offset="45%" stop-color="#171717"/>
+      <stop offset="100%" stop-color="#0a0a0a"/>
+    </radialGradient>
+    <radialGradient id="labelGrad" cx="45%" cy="35%" r="70%">
+      <stop offset="0%" stop-color="#e6c96a"/>
+      <stop offset="100%" stop-color="#c9a84c"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="64" height="64" rx="12" fill="#0c2e31"/>
+  <circle cx="32" cy="32" r="24" fill="url(#recordGrad)"/>
+
+  <circle cx="32" cy="32" r="18" fill="none" stroke="#2b2b2b" stroke-width="1.2"/>
+  <circle cx="32" cy="32" r="14" fill="none" stroke="#242424" stroke-width="1"/>
+  <circle cx="32" cy="32" r="10" fill="none" stroke="#1f1f1f" stroke-width="0.9"/>
+
+  <circle cx="32" cy="32" r="7" fill="url(#labelGrad)"/>
+  <circle cx="32" cy="32" r="1.6" fill="#0c2e31"/>
+
+  <rect x="38" y="14" width="11" height="2" rx="1" fill="#e6c96a" opacity="0.6" transform="rotate(30 43.5 15)"/>
+</svg>

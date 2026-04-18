@@ -18,7 +18,37 @@ $this->assign('title', 'Home');
     <div class="hero-content">
         <h1 class="hero-title">72 Seaside Vinyl</h1>
         <p class="hero-subtitle">Jouw platenwinkel aan de kust &mdash; Zierikzee</p>
-        <a href="#about" class="btn btn-primary">Ontdek Onze Winkel</a>
+    </div>
+</section>
+
+<!-- ============================================================
+     INTRO TEASER SECTION
+     ============================================================ -->
+<section class="intro-teaser" aria-labelledby="intro-teaser-title">
+    <div class="container">
+        <div class="intro-teaser-card">
+            <div class="intro-teaser-content">
+                <p class="intro-kicker">Het verhaal achter 72 Seaside Vinyl</p>
+                <h2 id="intro-teaser-title">Vinyl met karakter, herinneringen en geluid dat blijft hangen.</h2>
+                <p>
+                    Na meer dan 20 jaar vinyl verzamelen besloten we onze passie te delen en
+                    72 Seaside Vinyl te openen: een plek voor iedereen die houdt van vinylplaten,
+                    lp&rsquo;s en muziek met karakter.
+                </p>
+                <p>
+                    In onze winkel kun je rustig snuffelen tussen klassieke albums, nieuwe releases
+                    en bijzondere platen. Misschien vind je precies die lp die je terugbrengt naar
+                    een festival, vakantie of een mooie herinnering.
+                </p>
+                <p class="intro-closing">
+                    Vinyl is meer dan muziek. Het is de hoes, het geluid en het moment waarop de
+                    naald de plaat raakt.
+                </p>
+                <div class="intro-teaser-cta">
+                    <a href="#about" class="btn btn-primary">Lees Meer Over Ons</a>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 
@@ -51,26 +81,56 @@ $this->assign('title', 'Home');
                     plaatjesdagen en andere evenementen voor de lokale vinyl-community. Want
                     muziek is meer dan een product &mdash; het is een beleving.
                 </p>
+                <p>
+                    Bij <strong>72 Seaside Vinyl</strong> willen we dat het voelt als dat kleine,
+                    gezellige platenwinkeltje waar je binnenloopt om muziek te ontdekken,
+                    verhalen te delen en nieuwe platen te vinden.
+                </p>
+                <p>
+                    Zoek je een specifieke plaat? Laat het ons weten via een "message in a bottle"
+                    en we denken graag met je mee in de zoektocht naar dat ene album dat nog
+                    ontbreekt in je collectie.
+                </p>
+                <p>
+                    Naast oude klassiekers vind je bij ons ook nieuwe vinyl releases, verhalen
+                    achter albums en leuke weetjes over artiesten.
+                </p>
+                <p>
+                    Onze missie is simpel: de liefde voor muziek en vinyl delen.
+                    Van doorgewinterde verzamelaars tot de Spotify-generatie die misschien voor
+                    het eerst een plaat uit de hoes haalt.
+                </p>
+                <p>
+                    Want eerlijk is eerlijk... er gaat niets boven het geluid van een draaiende plaat.
+                </p>
             </div>
             <div class="about-highlights">
                 <div class="highlight-card">
-                    <span class="highlight-icon">&#9679;</span>
-                    <h4>New Releases</h4>
+                    <span class="highlight-record-wrap" aria-hidden="true">
+                        <h4 class="highlight-card-title-behind">New Releases</h4>
+                        <span class="highlight-record"><span class="highlight-record-label"></span></span>
+                    </span>
                     <p>Always the latest records in stock, week after week.</p>
                 </div>
                 <div class="highlight-card">
-                    <span class="highlight-icon">&#9679;</span>
-                    <h4>Tweedehands</h4>
+                    <span class="highlight-record-wrap" aria-hidden="true">
+                        <h4 class="highlight-card-title-behind">Tweedehands</h4>
+                        <span class="highlight-record"><span class="highlight-record-label"></span></span>
+                    </span>
                     <p>Een groeiende collectie zorgvuldig geselecteerde tweedehands platen.</p>
                 </div>
                 <div class="highlight-card">
-                    <span class="highlight-icon">&#9679;</span>
-                    <h4>Advies op Maat</h4>
+                    <span class="highlight-record-wrap" aria-hidden="true">
+                        <h4 class="highlight-card-title-behind">Advies op Maat</h4>
+                        <span class="highlight-record"><span class="highlight-record-label"></span></span>
+                    </span>
                     <p>Persoonlijk advies van onze enthousiaste medewerkers.</p>
                 </div>
                 <div class="highlight-card">
-                    <span class="highlight-icon">&#9679;</span>
-                    <h4>Luisterhoek</h4>
+                    <span class="highlight-record-wrap" aria-hidden="true">
+                        <h4 class="highlight-card-title-behind">Luisterhoek</h4>
+                        <span class="highlight-record"><span class="highlight-record-label"></span></span>
+                    </span>
                     <p>Beluister platen voordat je ze koopt in onze gezellige luisterhoek.</p>
                 </div>
             </div>
@@ -243,44 +303,85 @@ $this->assign('title', 'Home');
             <div class="section-divider"></div>
         </div>
         <div class="contact-content">
-            <div class="contact-info">
+            <div class="contact-top">
                 <div class="contact-block">
-                    <h3><i class="fa-solid fa-location-dot contact-icon" aria-hidden="true"></i> Adres</h3>
-                    <address>
-                        <strong>72 Seaside Vinyl</strong><br>
-                        Sint Domusstraat 17<br>
-                        4301 CP Zierikzee<br>
-                        Zeeland, Nederland
-                    </address>
+                    <h3><i class="fa-solid fa-envelope contact-icon" aria-hidden="true"></i> Stuur Ons Een Bericht</h3>
+                    <?= $this->Form->create(null, [
+                        'url' => ['controller' => 'Pages', 'action' => 'contact'],
+                        'class' => 'contact-form',
+                        'id' => 'contact-form',
+                        'novalidate' => true,
+                    ]) ?>
+                        <div class="contact-form-field">
+                            <?= $this->Form->label('name', 'Naam') ?>
+                            <?= $this->Form->text('name', [
+                                'id' => 'contact-name',
+                                'required' => true,
+                                'maxlength' => 120,
+                                'autocomplete' => 'name',
+                            ]) ?>
+                        </div>
+                        <div class="contact-form-field">
+                            <?= $this->Form->label('email', 'E-mail') ?>
+                            <?= $this->Form->email('email', [
+                                'id' => 'contact-email',
+                                'required' => true,
+                                'maxlength' => 190,
+                                'autocomplete' => 'email',
+                            ]) ?>
+                        </div>
+                        <div class="contact-form-field">
+                            <?= $this->Form->label('message', 'Bericht') ?>
+                            <?= $this->Form->textarea('message', [
+                                'id' => 'contact-message',
+                                'required' => true,
+                                'maxlength' => 5000,
+                                'rows' => 5,
+                            ]) ?>
+                        </div>
+                        <div class="contact-form-honeypot" aria-hidden="true">
+                            <?= $this->Form->label('website', 'Laat dit veld leeg') ?>
+                            <?= $this->Form->text('website', [
+                                'id' => 'contact-website',
+                                'tabindex' => '-1',
+                                'autocomplete' => 'off',
+                            ]) ?>
+                        </div>
+                        <?= $this->Form->button('Verstuur Bericht', ['class' => 'btn btn-primary contact-submit']) ?>
+                    <?= $this->Form->end() ?>
                 </div>
-                <div class="contact-block">
-                    <h3><i class="fa-solid fa-clock contact-icon" aria-hidden="true"></i> Openingstijden</h3>
-                    <table class="hours-table">
-                        <tr><td>Maandag</td><td>Gesloten</td></tr>
-                        <tr><td>Dinsdag &ndash; Vrijdag</td><td>10:00 &ndash; 18:00</td></tr>
-                        <tr><td>Zaterdag</td><td>10:00 &ndash; 17:00</td></tr>
-                        <tr><td>Zondag</td><td>12:00 &ndash; 16:00</td></tr>
-                    </table>
-                </div>
-                <div class="contact-block">
-                    <h3><i class="fa-solid fa-phone contact-icon" aria-hidden="true"></i> Bereikbaarheid</h3>
-                    <p>
-                        <strong>Telefoon:</strong> <a href="tel:+31111000000">+31 (0)111 00 00 00</a><br>
-                        <strong>E-mail:</strong> <a href="mailto:info@72seasidevinyl.nl">info@72seasidevinyl.nl</a>
-                    </p>
-                    <div class="social-links">
-                        <a href="#" class="social-link" aria-label="Instagram"><i class="fa-brands fa-instagram contact-icon" aria-hidden="true"></i> Instagram</a>
-                        <a href="#" class="social-link" aria-label="Facebook"><i class="fa-brands fa-facebook contact-icon" aria-hidden="true"></i> Facebook</a>
+
+                <div class="contact-info">
+                    <div class="contact-block">
+                        <h3><i class="fa-solid fa-location-dot contact-icon" aria-hidden="true"></i> Adres</h3>
+                        <address>
+                            <strong>72 Seaside Vinyl</strong><br>
+                            Sint Domusstraat 17<br>
+                            4301 CP Zierikzee<br>
+                            Zeeland, Nederland
+                        </address>
+                    </div>
+                    <div class="contact-block">
+                        <h3><i class="fa-solid fa-clock contact-icon" aria-hidden="true"></i> Openingstijden</h3>
+                        <table class="hours-table">
+                            <tr><td>Maandag &ndash; Dinsdag</td><td>Gesloten</td></tr>
+                            <tr><td>Woensdag &ndash; Vrijdag</td><td>10:00 &ndash; 18:00</td></tr>
+                            <tr><td>Zaterdag</td><td>10:00 &ndash; 17:00</td></tr>
+                            <tr><td>Zondag</td><td>12:00 &ndash; 16:00</td></tr>
+                        </table>
                     </div>
                 </div>
             </div>
+
             <div class="contact-map">
-                <div class="map-placeholder">
-                    <p><i class="fa-solid fa-map-location-dot" aria-hidden="true"></i></p>
-                    <p><strong>Zierikzee</strong></p>
-                    <p>Sint Domusstraat 17</p>
-                    <p><small>Kaart volgt binnenkort</small></p>
-                </div>
+                <iframe
+                    title="Google Maps - 72 Seaside Vinyl"
+                    class="contact-map-iframe"
+                    src="https://www.google.com/maps?daddr=Sint+Domusstraat+17,+4301+CM+Zierikzee&output=embed"
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"
+                    allowfullscreen
+                ></iframe>
             </div>
         </div>
     </div>

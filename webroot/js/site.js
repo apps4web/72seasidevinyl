@@ -2,6 +2,7 @@
 (function () {
     var header = document.querySelector('.site-header');
     var hero = document.querySelector('section.hero, #home');
+    var heroContent = document.querySelector('.hero-content');
     var toggle = document.querySelector('.nav-toggle');
     var nav = document.getElementById('site-nav');
 
@@ -11,8 +12,17 @@
         }
 
         var headerHeight = header.offsetHeight || 0;
-        var heroBottom = hero.offsetTop + hero.offsetHeight - headerHeight;
-        var isOverHero = window.scrollY < heroBottom;
+        var isMobile = window.matchMedia('(max-width: 640px)').matches;
+        var transitionPoint;
+
+        if (isMobile && heroContent) {
+            // On mobile, switch to dark navbar once the first hero text reaches the header.
+            transitionPoint = heroContent.offsetTop - headerHeight;
+        } else {
+            transitionPoint = hero.offsetTop + hero.offsetHeight - headerHeight;
+        }
+
+        var isOverHero = window.scrollY < transitionPoint;
         header.classList.toggle('is-over-hero', isOverHero);
     }
 
@@ -140,6 +150,88 @@
 
         if (event.key === 'ArrowRight') {
             stepLightbox(1);
+        }
+    });
+})();
+
+(function () {
+    var form = document.getElementById('contact-form');
+
+    if (!form) {
+        return;
+    }
+
+    var nameInput = document.getElementById('contact-name');
+    var emailInput = document.getElementById('contact-email');
+    var messageInput = document.getElementById('contact-message');
+    var honeypotInput = document.getElementById('contact-website');
+
+    function clearValidationMessages() {
+        [nameInput, emailInput, messageInput, honeypotInput].forEach(function (field) {
+            if (field) {
+                field.setCustomValidity('');
+            }
+        });
+    }
+
+    form.addEventListener('submit', function (event) {
+        clearValidationMessages();
+
+        var nameValue = nameInput ? nameInput.value.trim() : '';
+        var emailValue = emailInput ? emailInput.value.trim() : '';
+        var messageValue = messageInput ? messageInput.value.trim() : '';
+        var honeypotValue = honeypotInput ? honeypotInput.value.trim() : '';
+        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (nameInput) {
+            nameInput.value = nameValue;
+        }
+
+        if (emailInput) {
+            emailInput.value = emailValue;
+        }
+
+        if (messageInput) {
+            messageInput.value = messageValue;
+        }
+
+        if (honeypotValue !== '') {
+            event.preventDefault();
+
+            if (honeypotInput) {
+                honeypotInput.setCustomValidity('Ongeldige invoer gedetecteerd.');
+                honeypotInput.reportValidity();
+            }
+
+            return;
+        }
+
+        if (!nameValue) {
+            event.preventDefault();
+            if (nameInput) {
+                nameInput.setCustomValidity('Vul je naam in.');
+                nameInput.reportValidity();
+            }
+
+            return;
+        }
+
+        if (!emailRegex.test(emailValue)) {
+            event.preventDefault();
+            if (emailInput) {
+                emailInput.setCustomValidity('Vul een geldig e-mailadres in.');
+                emailInput.reportValidity();
+            }
+
+            return;
+        }
+
+        if (!messageValue) {
+            event.preventDefault();
+            if (messageInput) {
+                messageInput.setCustomValidity('Vul een bericht in.');
+                messageInput.reportValidity();
+            }
         }
     });
 })();
