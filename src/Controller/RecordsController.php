@@ -3,10 +3,12 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Calliostro\Discogs\DiscogsClientFactory;
 use Cake\Core\Configure;
 use Cake\Routing\Router;
 use Cake\Utility\Text;
 use Psr\Http\Message\UploadedFileInterface;
+use Throwable;
 
 /**
  * Records Controller
@@ -164,6 +166,196 @@ class RecordsController extends AppController
     }
 
     /**
+     * Find LP releases on Discogs by artist and album name.
+     *
+     * Expects query parameters: artist, album.
+     *
+     * @return \Cake\Http\Response
+     */
+    public function findLpsByArtistAndAlbum()
+    {
+        $this->request->allowMethod(['get']);
+        $this->Authorization->authorize($this->Records, 'index');
+
+        $artist = trim((string)$this->request->getQuery('artist'));
+        $album = trim((string)$this->request->getQuery('album'));
+        $page = max(1, (int)$this->request->getQuery('page', 1));
+        $perPage = (int)$this->request->getQuery('per_page', 10);
+        $perPage = max(1, min(50, $perPage));
+
+        if ($artist === '' || $album === '') {
+            return $this->jsonResponse([
+                'success' => false,
+                'message' => 'Both "artist" and "album" query parameters are required.',
+                'results' => [],
+            ], 400);
+        }
+
+        $consumerKey = trim((string)Configure::read('Discogs.consumerKey', ''));
+        $consumerSecret = trim((string)Configure::read('Discogs.consumerSecret', ''));
+        if ($consumerKey === '' || $consumerSecret === '') {
+            return $this->jsonResponse([
+                'success' => false,
+                'message' => 'Discogs credentials are missing. Set DISCOGS_CONSUMER_KEY and DISCOGS_CONSUMER_SECRET in config/.env.',
+                'results' => [],
+            ], 500);
+        }
+
+        try {
+            $discogs = DiscogsClientFactory::createWithConsumerCredentials(
+                $consumerKey,
+                $consumerSecret,
+                [
+                    'headers' => [
+                        'User-Agent' => '72SeasideVinyl/1.0 (+https://72seasidevinyl.local)',
+                    ],
+                ]
+            );
+
+            /** @var array<string, mixed> $response */
+            $response = $discogs->search(
+                q: $artist . ' ' . $album,
+                type: 'release',
+                artist: $artist,
+                releaseTitle: $album,
+                format: 'LP',
+                perPage: $perPage,
+                page: $page
+            );
+
+            $results = [];
+            foreach ((array)($response['results'] ?? []) as $item) {
+                if (!is_array($item)) {
+                    continue;
+                }
+
+                $releaseId = isset($item['id']) ? (int)$item['id'] : null;
+                $lowestPrice = $this->normalizeLowestPrice($item['lowest_price'] ?? $item['lowestPrice'] ?? null);
+                $numForSale = $this->normalizeNumForSale($item['num_for_sale'] ?? $item['numForSale'] ?? null);
+
+                // Search responses can miss marketplace data; fetch stats per release as fallback.
+                if ($releaseId !== null && ($lowestPrice === null || $numForSale === null)) {
+                    try {
+                        /** @var array<string, mixed> $marketplaceStats */
+                        $marketplaceStats = $discogs->getMarketplaceStats($releaseId);
+                        if ($lowestPrice === null) {
+                            $lowestPrice = $this->normalizeLowestPrice($marketplaceStats['lowest_price'] ?? null);
+                        }
+                        if ($numForSale === null) {
+                            $numForSale = $this->normalizeNumForSale($marketplaceStats['num_for_sale'] ?? null);
+                        }
+                    } catch (Throwable) {
+                        // Keep null values and continue; missing price data should not fail the whole response.
+                    }
+                }
+
+                $results[] = [
+                    'id' => $releaseId,
+                    'title' => $item['title'] ?? null,
+                    'year' => $item['year'] ?? null,
+                    'country' => $item['country'] ?? null,
+                    'catno' => $item['catno'] ?? null,
+                    'lowest_price' => $lowestPrice,
+                    'num_for_sale' => $numForSale,
+                    'type' => $item['type'] ?? null,
+                    'format' => $item['format'] ?? [],
+                    'label' => $item['label'] ?? [],
+                    'genre' => $item['genre'] ?? [],
+                    'style' => $item['style'] ?? [],
+                    'cover_image' => $item['cover_image'] ?? null,
+                    'thumb' => $item['thumb'] ?? null,
+                    'resource_url' => $item['resource_url'] ?? null,
+                ];
+            }
+
+            $pagination = (array)($response['pagination'] ?? []);
+            $currentPage = (int)($pagination['page'] ?? $page);
+            $totalPages = (int)($pagination['pages'] ?? 1);
+            $totalItems = (int)($pagination['items'] ?? count($results));
+            $effectivePerPage = (int)($pagination['per_page'] ?? $perPage);
+
+            return $this->jsonResponse([
+                'success' => true,
+                'artist' => $artist,
+                'album' => $album,
+                'count' => count($results),
+                'pagination' => [
+                    'page' => max(1, $currentPage),
+                    'pages' => max(1, $totalPages),
+                    'items' => max(0, $totalItems),
+                    'per_page' => max(1, $effectivePerPage),
+                ],
+                'results' => $results,
+            ]);
+        } catch (Throwable $exception) {
+            return $this->jsonResponse([
+                'success' => false,
+                'message' => 'Discogs request failed.',
+                'error' => $exception->getMessage(),
+                'results' => [],
+            ], 502);
+        }
+    }
+
+    /**
+     * Fetch full Discogs release details by release id.
+     *
+     * Expects query parameter: release_id.
+     *
+     * @return \Cake\Http\Response
+     */
+    public function discogsReleaseDetails()
+    {
+        $this->request->allowMethod(['get']);
+        $this->Authorization->authorize($this->Records, 'index');
+
+        $releaseId = (int)$this->request->getQuery('release_id');
+        if ($releaseId <= 0) {
+            return $this->jsonResponse([
+                'success' => false,
+                'message' => 'Query parameter "release_id" must be a positive integer.',
+            ], 400);
+        }
+
+        $consumerKey = trim((string)Configure::read('Discogs.consumerKey', ''));
+        $consumerSecret = trim((string)Configure::read('Discogs.consumerSecret', ''));
+        if ($consumerKey === '' || $consumerSecret === '') {
+            return $this->jsonResponse([
+                'success' => false,
+                'message' => 'Discogs credentials are missing. Set DISCOGS_CONSUMER_KEY and DISCOGS_CONSUMER_SECRET in config/.env.',
+            ], 500);
+        }
+
+        try {
+            $discogs = DiscogsClientFactory::createWithConsumerCredentials(
+                $consumerKey,
+                $consumerSecret,
+                [
+                    'headers' => [
+                        'User-Agent' => '72SeasideVinyl/1.0 (+https://72seasidevinyl.local)',
+                    ],
+                ]
+            );
+
+            /** @var array<string, mixed> $release */
+            $release = $discogs->getRelease($releaseId);
+
+            return $this->jsonResponse([
+                'success' => true,
+                'release_id' => $releaseId,
+                // Return full payload from Discogs as requested.
+                'release' => $release,
+            ]);
+        } catch (Throwable $exception) {
+            return $this->jsonResponse([
+                'success' => false,
+                'message' => 'Discogs request failed.',
+                'error' => $exception->getMessage(),
+            ], 502);
+        }
+    }
+
+    /**
      * Normalize cover-related payload and process file operations.
      *
      * @param array<string, mixed> $data Request data.
@@ -296,5 +488,87 @@ class RecordsController extends AppController
         foreach ($filenames as $filename) {
             $this->deleteCoverFile($filename);
         }
+    }
+
+    /**
+     * Determine whether a Discogs search result represents an LP vinyl release.
+     *
+     * @param array<string, mixed> $result Discogs result item.
+     * @return bool
+     */
+    private function isLpDiscogsResult(array $result): bool
+    {
+        $formats = $result['format'] ?? [];
+        if (!is_array($formats) || $formats === []) {
+            return false;
+        }
+
+        $formatText = strtolower(implode(' ', array_map(static fn($value): string => (string)$value, $formats)));
+
+        return str_contains($formatText, 'lp') && str_contains($formatText, 'vinyl');
+    }
+
+    /**
+     * Build a JSON response.
+     *
+     * @param array<string, mixed> $payload Response payload.
+     * @param int $status HTTP status code.
+     * @return \Cake\Http\Response
+     */
+    private function jsonResponse(array $payload, int $status = 200)
+    {
+        $json = json_encode($payload, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+        if ($json === false) {
+            $json = '{"success":false,"message":"Unable to encode response."}';
+            $status = 500;
+        }
+
+        return $this->response
+            ->withType('application/json')
+            ->withStatus($status)
+            ->withStringBody($json);
+    }
+
+    /**
+     * Normalize Discogs lowest_price field to a displayable string value.
+     *
+     * @param mixed $value Raw lowest_price value.
+     * @return string|null
+     */
+    private function normalizeLowestPrice(mixed $value): ?string
+    {
+        if (is_numeric($value)) {
+            return (string)$value;
+        }
+
+        if (is_array($value)) {
+            $amount = $value['value'] ?? null;
+            $currency = $value['currency'] ?? null;
+            if (is_numeric($amount)) {
+                return $currency !== null && $currency !== ''
+                    ? (string)$amount . ' ' . (string)$currency
+                    : (string)$amount;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Normalize Discogs num_for_sale field.
+     *
+     * @param mixed $value Raw num_for_sale value.
+     * @return int|null
+     */
+    private function normalizeNumForSale(mixed $value): ?int
+    {
+        if (is_int($value)) {
+            return $value;
+        }
+        if (is_numeric($value)) {
+            return (int)$value;
+        }
+
+        return null;
     }
 }
