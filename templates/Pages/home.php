@@ -53,92 +53,6 @@ $this->assign('title', 'Home');
 </section>
 
 <!-- ============================================================
-     ABOUT US SECTION
-     ============================================================ -->
-<section class="about" id="about">
-    <div class="container">
-        <div class="section-header">
-            <h2>Over Ons</h2>
-            <div class="section-divider"></div>
-        </div>
-        <div class="about-content">
-            <div class="about-text">
-                <h3>Een passie voor vinyl</h3>
-                <p>
-                    Welkom bij <strong>72 Seaside Vinyl</strong>, de platenwinkel van Zierikzee.
-                    Gevestigd in het hart van deze historische Zeeuwse stad, bieden wij een
-                    zorgvuldig samengestelde collectie nieuwe en tweedehands vinylplaten voor
-                    elke muziekliefhebber.
-                </p>
-                <p>
-                    Ons team bestaat uit echte platenliefhebbers die hun kennis en enthousiasme
-                    graag met je delen. Of je nu op zoek bent naar een zeldzame klassieker, het
-                    nieuwste album van je favoriete artiest of gewoon wilt browsen door onze
-                    uitgebreide collectie &mdash; bij ons ben je aan het juiste adres.
-                </p>
-                <p>
-                    Naast onze reguliere collectie organiseren we regelmatig luistermiddagen,
-                    plaatjesdagen en andere evenementen voor de lokale vinyl-community. Want
-                    muziek is meer dan een product &mdash; het is een beleving.
-                </p>
-                <p>
-                    Bij <strong>72 Seaside Vinyl</strong> willen we dat het voelt als dat kleine,
-                    gezellige platenwinkeltje waar je binnenloopt om muziek te ontdekken,
-                    verhalen te delen en nieuwe platen te vinden.
-                </p>
-                <p>
-                    Zoek je een specifieke plaat? Laat het ons weten via een "message in a bottle"
-                    en we denken graag met je mee in de zoektocht naar dat ene album dat nog
-                    ontbreekt in je collectie.
-                </p>
-                <p>
-                    Naast oude klassiekers vind je bij ons ook nieuwe vinyl releases, verhalen
-                    achter albums en leuke weetjes over artiesten.
-                </p>
-                <p>
-                    Onze missie is simpel: de liefde voor muziek en vinyl delen.
-                    Van doorgewinterde verzamelaars tot de Spotify-generatie die misschien voor
-                    het eerst een plaat uit de hoes haalt.
-                </p>
-                <p>
-                    Want eerlijk is eerlijk... er gaat niets boven het geluid van een draaiende plaat.
-                </p>
-            </div>
-            <div class="about-highlights">
-                <div class="highlight-card">
-                    <span class="highlight-record-wrap" aria-hidden="true">
-                        <h4 class="highlight-card-title-behind">New Releases</h4>
-                        <span class="highlight-record"><span class="highlight-record-label"></span></span>
-                    </span>
-                    <p>Always the latest records in stock, week after week.</p>
-                </div>
-                <div class="highlight-card">
-                    <span class="highlight-record-wrap" aria-hidden="true">
-                        <h4 class="highlight-card-title-behind">Tweedehands</h4>
-                        <span class="highlight-record"><span class="highlight-record-label"></span></span>
-                    </span>
-                    <p>Een groeiende collectie zorgvuldig geselecteerde tweedehands platen.</p>
-                </div>
-                <div class="highlight-card">
-                    <span class="highlight-record-wrap" aria-hidden="true">
-                        <h4 class="highlight-card-title-behind">Advies op Maat</h4>
-                        <span class="highlight-record"><span class="highlight-record-label"></span></span>
-                    </span>
-                    <p>Persoonlijk advies van onze enthousiaste medewerkers.</p>
-                </div>
-                <div class="highlight-card">
-                    <span class="highlight-record-wrap" aria-hidden="true">
-                        <h4 class="highlight-card-title-behind">Luisterhoek</h4>
-                        <span class="highlight-record"><span class="highlight-record-label"></span></span>
-                    </span>
-                    <p>Beluister platen voordat je ze koopt in onze gezellige luisterhoek.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ============================================================
      STORE PHOTOS SECTION
      ============================================================ -->
 <section class="store-photos">
@@ -228,6 +142,92 @@ $this->assign('title', 'Home');
                          loading="lazy">
                     <span class="photo-caption">Sfeerbeeld</span>
                 </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     ABOUT US SECTION
+     ============================================================ -->
+<section class="about" id="about">
+    <div class="container">
+        <div class="section-header">
+            <h2>Over Ons</h2>
+            <div class="section-divider"></div>
+        </div>
+        <div class="about-content">
+            <div class="about-text">
+                <h3>Een passie voor vinyl</h3>
+                <p>
+                    Welkom bij <strong>72 Seaside Vinyl</strong>, de platenwinkel van Zierikzee.
+                    Gevestigd in het hart van deze historische Zeeuwse stad, bieden wij een
+                    zorgvuldig samengestelde collectie nieuwe en tweedehands vinylplaten voor
+                    elke muziekliefhebber.
+                </p>
+                <p>
+                    Ons team bestaat uit echte platenliefhebbers die hun kennis en enthousiasme
+                    graag met je delen. Of je nu op zoek bent naar een zeldzame klassieker, het
+                    nieuwste album van je favoriete artiest of gewoon wilt browsen door onze
+                    uitgebreide collectie &mdash; bij ons ben je aan het juiste adres.
+                </p>
+                <p>
+                    Naast onze reguliere collectie organiseren we regelmatig luistermiddagen,
+                    plaatjesdagen en andere evenementen voor de lokale vinyl-community. Want
+                    muziek is meer dan een product &mdash; het is een beleving.
+                </p>
+                <p>
+                    Bij <strong>72 Seaside Vinyl</strong> willen we dat het voelt als dat kleine,
+                    gezellige platenwinkeltje waar je binnenloopt om muziek te ontdekken,
+                    verhalen te delen en nieuwe platen te vinden.
+                </p>
+                <p>
+                    Zoek je een specifieke plaat? Laat het ons weten via een "message in a bottle"
+                    en we denken graag met je mee in de zoektocht naar dat ene album dat nog
+                    ontbreekt in je collectie.
+                </p>
+                <p>
+                    Naast oude klassiekers vind je bij ons ook nieuwe vinyl releases, verhalen
+                    achter albums en leuke weetjes over artiesten.
+                </p>
+                <p>
+                    Onze missie is simpel: de liefde voor muziek en vinyl delen.
+                    Van doorgewinterde verzamelaars tot de Spotify-generatie die misschien voor
+                    het eerst een plaat uit de hoes haalt.
+                </p>
+                <p>
+                    Want eerlijk is eerlijk... er gaat niets boven het geluid van een draaiende plaat.
+                </p>
+            </div>
+            <div class="about-highlights">
+                <div class="highlight-card">
+                    <span class="highlight-record-wrap" aria-hidden="true">
+                        <h4 class="highlight-card-title-behind">New Releases</h4>
+                        <span class="highlight-record"><span class="highlight-record-label"></span></span>
+                    </span>
+                    <p>Always the latest records in stock, week after week.</p>
+                </div>
+                <div class="highlight-card">
+                    <span class="highlight-record-wrap" aria-hidden="true">
+                        <h4 class="highlight-card-title-behind">Tweedehands</h4>
+                        <span class="highlight-record"><span class="highlight-record-label"></span></span>
+                    </span>
+                    <p>Een groeiende collectie zorgvuldig geselecteerde tweedehands platen.</p>
+                </div>
+                <div class="highlight-card">
+                    <span class="highlight-record-wrap" aria-hidden="true">
+                        <h4 class="highlight-card-title-behind">Advies op Maat</h4>
+                        <span class="highlight-record"><span class="highlight-record-label"></span></span>
+                    </span>
+                    <p>Persoonlijk advies van onze enthousiaste medewerkers.</p>
+                </div>
+                <div class="highlight-card">
+                    <span class="highlight-record-wrap" aria-hidden="true">
+                        <h4 class="highlight-card-title-behind">Luisterhoek</h4>
+                        <span class="highlight-record"><span class="highlight-record-label"></span></span>
+                    </span>
+                    <p>Beluister platen voordat je ze koopt in onze gezellige luisterhoek.</p>
+                </div>
             </div>
         </div>
     </div>

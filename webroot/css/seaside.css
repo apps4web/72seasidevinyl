@@ -250,7 +250,7 @@ address { font-style: normal; }
     justify-content: center;
     text-align: center;
     overflow: hidden;
-    background: var(--color-black);
+    background: var(--color-dark);
 }
 
 .hero-bg-img {
@@ -299,7 +299,7 @@ address { font-style: normal; }
     position: relative;
     z-index: 2;
     padding: 0 0 52px;
-    background: transparent;
+    background: linear-gradient(to bottom, transparent var(--intro-overlap), var(--color-dark) var(--intro-overlap));
 }
 
 .intro-teaser-card {
@@ -601,7 +601,7 @@ address { font-style: normal; }
 /* ── Releases Section ── */
 .releases {
     padding: var(--section-pad) 0;
-    background: var(--color-black);
+    background: var(--color-dark);
 }
 
 .releases-grid {
@@ -715,7 +715,7 @@ address { font-style: normal; }
 /* ── Contact Section ── */
 .contact {
     padding: var(--section-pad) 0;
-    background: var(--color-dark);
+    background: var(--color-black);
 }
 
 .contact-content {

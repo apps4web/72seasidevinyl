@@ -49,6 +49,34 @@ class RecordsController extends AppController
     }
 
     /**
+     * Quick-add an artist via AJAX from the record add/edit form.
+     *
+     * @return \Cake\Http\Response
+     */
+    public function quickAddArtist()
+    {
+        $this->request->allowMethod(['post']);
+        $this->Authorization->authorize($this->Records, 'index');
+
+        $name = trim((string)$this->request->getData('name'));
+        if ($name === '') {
+            return $this->jsonResponse(['success' => false, 'message' => 'Name is required.'], 400);
+        }
+
+        $artist = $this->Records->Artists->newEmptyEntity();
+        $artist = $this->Records->Artists->patchEntity($artist, ['name' => $name]);
+
+        if ($this->Records->Artists->save($artist)) {
+            return $this->jsonResponse(['success' => true, 'id' => $artist->id, 'name' => $artist->name]);
+        }
+
+        $errors = $artist->getErrors();
+        $message = !empty($errors['name']) ? implode(' ', (array)reset($errors['name'])) : 'Could not save artist.';
+
+        return $this->jsonResponse(['success' => false, 'message' => $message], 422);
+    }
+
+    /**
      * View method
      *
      * @param string|null $id Record id.

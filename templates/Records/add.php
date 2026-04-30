@@ -31,7 +31,10 @@ $this->Html->script('tom-select.complete.min', ['block' => 'scriptBottom']);
 
         <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
             <div>
-                <label class="mb-2.5 block text-sm font-medium text-body-dark">Artist <span class="text-danger">*</span></label>
+                <div class="mb-2.5 flex items-center justify-between">
+                    <label class="text-sm font-medium text-body-dark">Artist <span class="text-danger">*</span></label>
+                    <button type="button" id="toggle-add-artist" class="text-xs text-primary hover:underline">+ New artist</button>
+                </div>
                 <?= $this->Form->control('artist_id', [
                     'label' => false,
                     'options' => $artists,
@@ -39,6 +42,20 @@ $this->Html->script('tom-select.complete.min', ['block' => 'scriptBottom']);
                     'id' => 'record-artist-id',
                     'class' => 'w-full rounded border border-stroke bg-gray-1 px-5 py-3 text-sm font-medium text-body-dark outline-none transition focus:border-primary active:border-primary' . ($record->getError('artist_id') ? ' border-danger' : ''),
                 ]) ?>
+                <div id="add-artist-panel" class="mt-2 hidden rounded border border-stroke bg-gray-1 p-3">
+                    <p class="mb-2 text-xs font-medium text-body-dark">New artist name</p>
+                    <div class="flex gap-2">
+                        <input type="text" id="new-artist-name" placeholder="Artist name"
+                               class="flex-1 rounded border border-stroke bg-white px-3 py-2 text-sm text-body-dark outline-none focus:border-primary">
+                        <button type="button" id="save-new-artist"
+                                data-url="<?= $this->Url->build(['action' => 'quickAddArtist']) ?>"
+                                data-csrf="<?= $this->request->getAttribute('csrfToken') ?>"
+                                class="rounded bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-opacity-90 disabled:opacity-60">
+                            Save
+                        </button>
+                    </div>
+                    <p id="add-artist-error" class="mt-1 hidden text-xs text-danger"></p>
+                </div>
             </div>
 
             <div>
@@ -193,6 +210,75 @@ document.addEventListener('DOMContentLoaded', function () {
             create: false,
             placeholder: 'Type to search genres...',
             maxOptions: 500,
+        });
+    }
+
+    var toggleAddArtist = document.getElementById('toggle-add-artist');
+    var addArtistPanel = document.getElementById('add-artist-panel');
+    var newArtistName = document.getElementById('new-artist-name');
+    var saveNewArtist = document.getElementById('save-new-artist');
+    var addArtistError = document.getElementById('add-artist-error');
+
+    if (toggleAddArtist && addArtistPanel && newArtistName && saveNewArtist && addArtistError) {
+        toggleAddArtist.addEventListener('click', function () {
+            var hidden = addArtistPanel.classList.toggle('hidden');
+            toggleAddArtist.textContent = hidden ? '+ New artist' : '− Cancel';
+            if (!hidden) {
+                newArtistName.focus();
+            }
+        });
+
+        saveNewArtist.addEventListener('click', function () {
+            var name = newArtistName.value.trim();
+            addArtistError.classList.add('hidden');
+            if (!name) {
+                addArtistError.textContent = 'Name is required.';
+                addArtistError.classList.remove('hidden');
+                return;
+            }
+
+            saveNewArtist.disabled = true;
+            var url = saveNewArtist.getAttribute('data-url');
+            var csrf = saveNewArtist.getAttribute('data-csrf');
+            var body = new FormData();
+            body.append('name', name);
+            if (csrf) {
+                body.append('_csrfToken', csrf);
+            }
+
+            fetch(url, { method: 'POST', body: body })
+                .then(function (r) { return r.json(); })
+                .then(function (data) {
+                    if (!data.success) {
+                        addArtistError.textContent = data.message || 'Could not save artist.';
+                        addArtistError.classList.remove('hidden');
+                        return;
+                    }
+                    var artistSelect = document.getElementById('record-artist-id');
+                    var opt = document.createElement('option');
+                    opt.value = data.id;
+                    opt.textContent = data.name;
+                    opt.selected = true;
+                    artistSelect.appendChild(opt);
+                    artistSelect.value = data.id;
+                    newArtistName.value = '';
+                    addArtistPanel.classList.add('hidden');
+                    toggleAddArtist.textContent = '+ New artist';
+                })
+                .catch(function () {
+                    addArtistError.textContent = 'Request failed.';
+                    addArtistError.classList.remove('hidden');
+                })
+                .finally(function () {
+                    saveNewArtist.disabled = false;
+                });
+        });
+
+        newArtistName.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                saveNewArtist.click();
+            }
         });
     }
 
