@@ -21,6 +21,7 @@ use Cake\Core\Configure;
 use Cake\Http\Exception\ForbiddenException;
 use Cake\Http\Exception\NotFoundException;
 use Cake\Http\Response;
+use Cake\Log\Log;
 use Cake\View\Exception\MissingTemplateException;
 
 /**
@@ -39,7 +40,9 @@ class PagesController extends AppController
      */
     public function contact(): Response
     {
-        $this->request->allowMethod(['post']);
+        if (!$this->request->is('post')) {
+            return $this->redirect('/#contact');
+        }
 
         $form = new ContactForm();
         $data = (array)$this->request->getData();
@@ -47,6 +50,13 @@ class PagesController extends AppController
         if ($form->execute($data)) {
             $this->Flash->success(__('Bedankt! Je bericht is verzonden. We nemen zo snel mogelijk contact op.'));
         } else {
+            // CONTACT_DEBUG: temporary logging to diagnose form failures on prod. Remove once fixed.
+            Log::warning('CONTACT_DEBUG execute() returned false. errors=' . json_encode($form->getErrors())
+                . ' submitted_keys=' . json_encode(array_keys($data))
+                . ' name_len=' . strlen((string)($data['name'] ?? ''))
+                . ' email_len=' . strlen((string)($data['email'] ?? ''))
+                . ' message_len=' . strlen((string)($data['message'] ?? ''))
+                . ' honeypot_len=' . strlen((string)($data['website'] ?? '')));
             $this->Flash->error(__('Je bericht kon niet worden verzonden. Controleer de velden en probeer opnieuw.'));
         }
 

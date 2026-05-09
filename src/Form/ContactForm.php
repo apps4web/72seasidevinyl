@@ -73,16 +73,21 @@ class ContactForm extends Form
      * @param array<string, mixed> $data Submitted data.
      * @return bool
      */
-    protected function _execute(array $data): bool
+    protected function process(array $data): bool
     {
         try {
             (new ContactMailer())->send('ownerNotification', [$data]);
 
             return true;
         } catch (Throwable $exception) {
+            // CONTACT_DEBUG: temporary verbose mailer logging. Trim back once fixed.
             Log::error(sprintf(
-                'Contact form email failed: %s',
-                $exception->getMessage()
+                "CONTACT_DEBUG mailer failed: %s: %s at %s:%d\nTrace:\n%s",
+                $exception::class,
+                $exception->getMessage(),
+                $exception->getFile(),
+                $exception->getLine(),
+                $exception->getTraceAsString()
             ));
 
             return false;

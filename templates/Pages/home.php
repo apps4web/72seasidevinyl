@@ -252,6 +252,7 @@ $this->assign('title', 'Home');
 <!-- ============================================================
      LATEST RELEASES SECTION
      ============================================================ -->
+<!--
 <section class="releases" id="releases">
     <div class="container">
         <div class="section-header">
@@ -292,8 +293,9 @@ $this->assign('title', 'Home');
         </div>
     </div>
 </section>
+-->
 
-<!-- ============================================================
+ <!-- ============================================================
      CONTACT & ADDRESS SECTION
      ============================================================ -->
 <section class="contact" id="contact">
@@ -306,6 +308,7 @@ $this->assign('title', 'Home');
             <div class="contact-top">
                 <div class="contact-block">
                     <h3><i class="fa-solid fa-envelope contact-icon" aria-hidden="true"></i> Stuur Ons Een Bericht</h3>
+                    <?= $this->Flash->render() ?>
                     <?= $this->Form->create(null, [
                         'url' => ['controller' => 'Pages', 'action' => 'contact'],
                         'class' => 'contact-form',
@@ -365,9 +368,8 @@ $this->assign('title', 'Home');
                         <h3><i class="fa-solid fa-clock contact-icon" aria-hidden="true"></i> Openingstijden</h3>
                         <table class="hours-table">
                             <tr><td>Maandag &ndash; Dinsdag</td><td>Gesloten</td></tr>
-                            <tr><td>Woensdag &ndash; Vrijdag</td><td>10:00 &ndash; 18:00</td></tr>
-                            <tr><td>Zaterdag</td><td>10:00 &ndash; 17:00</td></tr>
-                            <tr><td>Zondag</td><td>12:00 &ndash; 16:00</td></tr>
+                            <tr><td>Woensdag &ndash; Zaterdag</td><td>10:00 &ndash; 18:30</td></tr>
+                            <tr><td>Zondag</td><td>11:00 &ndash; 17:00</td></tr>
                         </table>
                     </div>
                 </div>
@@ -377,7 +379,7 @@ $this->assign('title', 'Home');
                 <iframe
                     title="Google Maps - 72 Seaside Vinyl"
                     class="contact-map-iframe"
-                    src="https://www.google.com/maps?daddr=Sint+Domusstraat+17,+4301+CM+Zierikzee&output=embed"
+                    src="https://www.google.com/maps?daddr=Sint+Domusstraat+17,+4301+CP+Zierikzee&output=embed"
                     loading="lazy"
                     referrerpolicy="no-referrer-when-downgrade"
                     allowfullscreen
