@@ -2,7 +2,7 @@
 /**
  * @var \App\View\AppView $this
  * @var array<string, mixed> $contact
- * @var \Cake\I18n\FrozenTime $submittedAt
+ * @var \Cake\I18n\DateTime $submittedAt
  */
 ?>
 <?php $this->assign('title', 'Nieuw contactbericht'); ?>

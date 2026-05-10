@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Mailer;
 
 use Cake\Core\Configure;
-use Cake\I18n\FrozenTime;
+use Cake\I18n\DateTime;
 use Cake\Mailer\Mailer;
 
 class ContactMailer extends Mailer
@@ -18,8 +18,8 @@ class ContactMailer extends Mailer
     public function ownerNotification(array $contact): void
     {
         $ownerEmail = (string)Configure::read('Contact.ownerEmail', 'info@72seasidevinyl.nl');
-        $fromEmail = (string)Configure::read('Contact.fromEmail', 'noreply@72seasidevinyl.nl');
-        $fromName = (string)Configure::read('Contact.fromName', '72 Seaside Vinyl Contactformulier');
+        $fromEmail = (string)Configure::read('Contact.fromEmail', 'info@72seasidevinyl.nl');
+        $fromName = (string)Configure::read('Contact.fromName', '72 Seaside Vinyl');
 
         $name = trim((string)($contact['name'] ?? ''));
         $email = trim((string)($contact['email'] ?? ''));
@@ -30,12 +30,14 @@ class ContactMailer extends Mailer
             ->setReplyTo([$email => $name !== '' ? $name : $email])
             ->setSubject('Nieuw contactformulier bericht - 72 Seaside Vinyl')
             ->setEmailFormat('both')
-            ->setTemplate('contact_owner_notification')
-            ->setLayout('retro_contact')
             ->setViewVars([
                 'contact' => $contact,
-                'submittedAt' => FrozenTime::now(),
+                'submittedAt' => DateTime::now(),
             ]);
+
+        $this->viewBuilder()
+            ->setTemplate('contact_owner_notification')
+            ->setLayout('retro_contact');
 
         $logoPath = WWW_ROOT . 'img' . DS . 'logo-72-seaside-vinyl.png';
         if (is_file($logoPath)) {

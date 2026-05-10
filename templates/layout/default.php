@@ -16,6 +16,15 @@
     <?php $this->Html->script('https://code.jquery.com/jquery-3.7.1.min.js', ['block' => 'scriptBottom']); ?>
     <?php $this->Html->script('site', ['block' => 'scriptBottom']); ?>
     <?= $this->fetch('meta') ?>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H2R30EN9F0"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-H2R30EN9F0');
+    </script>
     <?= $this->fetch('css') ?>
 </head>
 <body>
