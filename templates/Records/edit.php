@@ -4,6 +4,7 @@
  * @var \App\Model\Entity\Record $record
  * @var string[]|\Cake\Collection\CollectionInterface $artists
  * @var string[]|\Cake\Collection\CollectionInterface $genres
+ * @var string[]|\Cake\Collection\CollectionInterface $suppliers
  */
 
 $this->assign('title', 'Edit Record');
@@ -50,6 +51,26 @@ $this->Html->script('tom-select.complete.min', ['block' => 'scriptBottom']);
             </div>
 
             <div>
+                <label class="mb-2.5 block text-sm font-medium text-body-dark">Barcode</label>
+                <?= $this->Form->control('barcode', [
+                    'label' => false,
+                    'placeholder' => 'Barcode',
+                    'class' => 'w-full rounded border border-stroke bg-gray-1 px-5 py-3 text-sm font-medium text-body-dark outline-none transition focus:border-primary active:border-primary',
+                ]) ?>
+            </div>
+
+            <div>
+                <label class="mb-2.5 block text-sm font-medium text-body-dark">Discogs Release ID</label>
+                <?= $this->Form->control('discogs_release_id', [
+                    'label' => false,
+                    'type' => 'number',
+                    'min' => '0',
+                    'placeholder' => 'Discogs release id',
+                    'class' => 'w-full rounded border border-stroke bg-gray-1 px-5 py-3 text-sm font-medium text-body-dark outline-none transition focus:border-primary active:border-primary',
+                ]) ?>
+            </div>
+
+            <div>
                 <label class="mb-2.5 block text-sm font-medium text-body-dark">Price (EUR)</label>
                 <?= $this->Form->control('price', [
                     'label' => false,
@@ -57,6 +78,15 @@ $this->Html->script('tom-select.complete.min', ['block' => 'scriptBottom']);
                     'step' => '0.01',
                     'min' => '0',
                     'placeholder' => '0.00',
+                    'class' => 'w-full rounded border border-stroke bg-gray-1 px-5 py-3 text-sm font-medium text-body-dark outline-none transition focus:border-primary active:border-primary',
+                ]) ?>
+            </div>
+
+            <div>
+                <label class="mb-2.5 block text-sm font-medium text-body-dark">Lowest Price</label>
+                <?= $this->Form->control('lowest_price', [
+                    'label' => false,
+                    'placeholder' => 'Discogs lowest price',
                     'class' => 'w-full rounded border border-stroke bg-gray-1 px-5 py-3 text-sm font-medium text-body-dark outline-none transition focus:border-primary active:border-primary',
                 ]) ?>
             </div>
@@ -76,7 +106,7 @@ $this->Html->script('tom-select.complete.min', ['block' => 'scriptBottom']);
 
                 <?php if (!empty($record->cover)): ?>
                 <div class="mb-3 overflow-hidden rounded border border-stroke bg-gray-1 p-3">
-                    <?= $this->Html->image('covers/' . rawurlencode((string)$record->cover), [
+                    <?= $this->Html->image('records/images/' . rawurlencode((string)$record->cover), [
                         'alt' => 'Current cover',
                         'class' => 'h-40 w-auto rounded object-contain',
                         'onerror' => "this.style.display='none'; this.nextElementSibling.style.display='block';",
@@ -137,6 +167,17 @@ $this->Html->script('tom-select.complete.min', ['block' => 'scriptBottom']);
                     'class' => 'w-full rounded border border-stroke bg-gray-1 px-5 py-3 text-sm text-body-dark outline-none transition focus:border-primary active:border-primary',
                 ]) ?>
             </div>
+
+            <div>
+                <label class="mb-2.5 block text-sm font-medium text-body-dark">Suppliers</label>
+                <?= $this->Form->control('suppliers._ids', [
+                    'label' => false,
+                    'options' => $suppliers,
+                    'multiple' => true,
+                    'id' => 'suppliers-select-edit',
+                    'class' => 'w-full rounded border border-stroke bg-gray-1 px-5 py-3 text-sm text-body-dark outline-none transition focus:border-primary active:border-primary',
+                ]) ?>
+            </div>
         </div>
 
         <div class="flex items-center gap-8">
@@ -186,6 +227,170 @@ $this->Html->script('tom-select.complete.min', ['block' => 'scriptBottom']);
         </div>
 
         <?= $this->Form->end() ?>
+
+        <div class="mt-8 space-y-6 border-t border-stroke pt-6">
+            <div>
+                <h4 class="mb-3 text-base font-semibold text-body-dark">Related Companies (records_artists)</h4>
+                <?php if (!empty($record->records_artists)) : ?>
+                    <div class="overflow-x-auto rounded border border-stroke">
+                        <table class="min-w-full text-sm">
+                            <thead class="bg-gray-1 text-left text-body-dark">
+                                <tr>
+                                    <th class="px-3 py-2">Company</th>
+                                    <th class="px-3 py-2">Type</th>
+                                    <th class="px-3 py-2">Role</th>
+                                    <th class="px-3 py-2">Position</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($record->records_artists as $row) : ?>
+                                    <tr class="border-t border-stroke">
+                                        <td class="px-3 py-2"><?= h($row->company->name ?? '-') ?></td>
+                                        <td class="px-3 py-2"><?= h($row->type ?? '-') ?></td>
+                                        <td class="px-3 py-2"><?= h($row->role ?? '-') ?></td>
+                                        <td class="px-3 py-2"><?= h($row->position ?? '-') ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                <?php else : ?>
+                    <p class="text-sm text-gray-4">No related companies.</p>
+                <?php endif; ?>
+            </div>
+
+            <div>
+                <h4 class="mb-3 text-base font-semibold text-body-dark">Tracks</h4>
+                <?php if (!empty($record->tracks)) : ?>
+                    <div class="overflow-x-auto rounded border border-stroke">
+                        <table class="min-w-full text-sm">
+                            <thead class="bg-gray-1 text-left text-body-dark">
+                                <tr>
+                                    <th class="px-3 py-2">Position</th>
+                                    <th class="px-3 py-2">Title</th>
+                                    <th class="px-3 py-2">Duration</th>
+                                    <th class="px-3 py-2">Video</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($record->tracks as $track) : ?>
+                                    <tr class="border-t border-stroke">
+                                        <td class="px-3 py-2"><?= h($track->position ?? '-') ?></td>
+                                        <td class="px-3 py-2"><?= h($track->title ?? '-') ?></td>
+                                        <td class="px-3 py-2"><?= h($track->duration ?? '-') ?></td>
+                                        <td class="px-3 py-2">
+                                            <?php if (!empty($track->video)) : ?>
+                                                <a href="<?= h($track->video) ?>" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">Open</a>
+                                            <?php else : ?>
+                                                -
+                                            <?php endif; ?>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                <?php else : ?>
+                    <p class="text-sm text-gray-4">No tracks.</p>
+                <?php endif; ?>
+            </div>
+
+            <div>
+                <h4 class="mb-3 text-base font-semibold text-body-dark">Record Videos</h4>
+                <?php if (!empty($record->record_videos)) : ?>
+                    <div class="overflow-x-auto rounded border border-stroke">
+                        <table class="min-w-full text-sm">
+                            <thead class="bg-gray-1 text-left text-body-dark">
+                                <tr>
+                                    <th class="px-3 py-2">Title</th>
+                                    <th class="px-3 py-2">URI</th>
+                                    <th class="px-3 py-2">Duration</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($record->record_videos as $video) : ?>
+                                    <tr class="border-t border-stroke">
+                                        <td class="px-3 py-2"><?= h($video->title ?? '-') ?></td>
+                                        <td class="px-3 py-2">
+                                            <?php if (!empty($video->uri)) : ?>
+                                                <a href="<?= h($video->uri) ?>" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">Open</a>
+                                            <?php else : ?>
+                                                -
+                                            <?php endif; ?>
+                                        </td>
+                                        <td class="px-3 py-2"><?= h($video->duration ?? '-') ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                <?php else : ?>
+                    <p class="text-sm text-gray-4">No videos.</p>
+                <?php endif; ?>
+            </div>
+
+            <div>
+                <h4 class="mb-3 text-base font-semibold text-body-dark">Record Images</h4>
+                <?php if (!empty($record->record_images)) : ?>
+                    <div class="overflow-x-auto rounded border border-stroke">
+                        <table class="min-w-full text-sm">
+                            <thead class="bg-gray-1 text-left text-body-dark">
+                                <tr>
+                                    <th class="px-3 py-2">Filename</th>
+                                    <th class="px-3 py-2">Alt</th>
+                                    <th class="px-3 py-2">Sort</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($record->record_images as $image) : ?>
+                                    <tr class="border-t border-stroke">
+                                        <td class="px-3 py-2"><?= h($image->filename ?? '-') ?></td>
+                                        <td class="px-3 py-2"><?= h($image->alt ?? '-') ?></td>
+                                        <td class="px-3 py-2"><?= h($image->sort_order ?? '-') ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                <?php else : ?>
+                    <p class="text-sm text-gray-4">No record images.</p>
+                <?php endif; ?>
+            </div>
+
+            <div>
+                <h4 class="mb-3 text-base font-semibold text-body-dark">Supplier Images</h4>
+                <?php if (!empty($record->record_supplier_images)) : ?>
+                    <div class="overflow-x-auto rounded border border-stroke">
+                        <table class="min-w-full text-sm">
+                            <thead class="bg-gray-1 text-left text-body-dark">
+                                <tr>
+                                    <th class="px-3 py-2">URI</th>
+                                    <th class="px-3 py-2">Type</th>
+                                    <th class="px-3 py-2">Size</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($record->record_supplier_images as $image) : ?>
+                                    <tr class="border-t border-stroke">
+                                        <td class="px-3 py-2">
+                                            <?php if (!empty($image->uri)) : ?>
+                                                <a href="<?= h($image->uri) ?>" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">Open</a>
+                                            <?php else : ?>
+                                                -
+                                            <?php endif; ?>
+                                        </td>
+                                        <td class="px-3 py-2"><?= h($image->image_type ?? '-') ?></td>
+                                        <td class="px-3 py-2"><?= h(($image->width ?? '-') . 'x' . ($image->height ?? '-')) ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                <?php else : ?>
+                    <p class="text-sm text-gray-4">No supplier images.</p>
+                <?php endif; ?>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -198,6 +403,16 @@ document.addEventListener('DOMContentLoaded', function () {
             plugins: ['remove_button'],
             create: false,
             placeholder: 'Type to search genres...',
+            maxOptions: 500,
+        });
+    }
+
+    var suppliersSelect = document.getElementById('suppliers-select-edit');
+    if (suppliersSelect && !suppliersSelect.tomselect) {
+        new TomSelect(suppliersSelect, {
+            plugins: ['remove_button'],
+            create: false,
+            placeholder: 'Type to search suppliers...',
             maxOptions: 500,
         });
     }

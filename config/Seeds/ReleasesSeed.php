@@ -21,6 +21,8 @@ class ReleasesSeed extends BaseSeed
     public function run(): void
     {
         $now = date('Y-m-d H:i:s');
+        $adminPassword = env('ADMIN_PASSWORD', 'ChangeMe123!');
+        $adminPasswordHash = password_hash($adminPassword, PASSWORD_BCRYPT);
 
         // Create a default admin user if it doesn't exist yet.
         $existingAdmin = $this->fetchRow("SELECT id FROM users WHERE username = 'admin' LIMIT 1");
@@ -30,13 +32,13 @@ class ReleasesSeed extends BaseSeed
                     'username' => 'admin',
                     'email' => 'admin@72seasidevinyl.nl',
                     'role' => 'admin',
-                    'password' => password_hash('ChangeMe123!', PASSWORD_BCRYPT),
+                    'password' => $adminPasswordHash,
                     'created' => $now,
                     'modified' => $now,
                 ],
             ])->save();
         } else {
-            $this->execute("UPDATE users SET role = 'admin' WHERE username = 'admin'");
+            $this->execute("UPDATE users SET role = 'admin', password = '" . $adminPasswordHash . "' WHERE username = 'admin'");
         }
 
         // Ensure some artists exist first

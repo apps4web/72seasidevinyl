@@ -60,6 +60,12 @@ $this->assign('title', 'Records');
                     </td>
                     <td class="px-4 py-3">
                         <div class="flex items-center gap-3">
+                            <a href="<?= $this->Url->build(['controller' => 'Shop', 'action' => 'record', $record->id, 'prefix' => false]) ?>"
+                               target="_blank"
+                               class="text-sm font-medium text-gray-4 hover:underline"
+                               title="Bekijk publieke pagina">
+                                View
+                            </a>
                             <a href="<?= $this->Url->build(['action' => 'edit', $record->id]) ?>"
                                class="text-sm font-medium text-primary hover:underline">
                                 Edit

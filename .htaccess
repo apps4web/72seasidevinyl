@@ -6,6 +6,18 @@
 
 <IfModule mod_rewrite.c>
     RewriteEngine on
+
+    # Force HTTPS (skip ACME challenges so Let's Encrypt renewal still works).
+    RewriteCond %{REQUEST_URI} !^/\.well-known/
+    RewriteCond %{HTTPS} !=on
+    RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+    RewriteCond %{HTTP_HOST} !^localhost(:\d+)?$ [NC]
+    RewriteRule ^ https://72seasidevinyl.nl%{REQUEST_URI} [L,R=301]
+
+    # Force non-www host.
+    RewriteCond %{HTTP_HOST} ^www\. [NC]
+    RewriteRule ^ https://72seasidevinyl.nl%{REQUEST_URI} [L,R=301]
+
     RewriteRule    ^(\.well-known/.*)$ $1 [L]
     RewriteRule    ^$    webroot/    [L]
     RewriteRule    (.*) webroot/$1    [L]

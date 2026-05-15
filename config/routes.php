@@ -57,6 +57,13 @@ return function (RouteBuilder $routes): void {
          */
         $builder->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
         $builder->connect('/contact', ['controller' => 'Pages', 'action' => 'contact']);
+        $builder->connect('/platen', ['controller' => 'Shop', 'action' => 'index'], ['_name' => 'shop:index']);
+        $builder->connect('/platen/{id}', ['controller' => 'Shop', 'action' => 'record'], ['id' => '\d+', '_name' => 'shop:record', 'pass' => ['id']]);
+        $builder->connect('/winkelwagen', ['controller' => 'Basket', 'action' => 'view'], ['_name' => 'basket:view']);
+        $builder->connect('/winkelwagen/toevoegen/{id}', ['controller' => 'Basket', 'action' => 'add'], ['id' => '\d+', '_name' => 'basket:add', 'pass' => ['id']]);
+        $builder->connect('/winkelwagen/verwijder/{id}', ['controller' => 'Basket', 'action' => 'remove'], ['id' => '\d+', '_name' => 'basket:remove', 'pass' => ['id']]);
+        $builder->connect('/reserveren', ['controller' => 'Basket', 'action' => 'checkout'], ['_name' => 'basket:checkout']);
+        $builder->connect('/reserveren/bevestigd', ['controller' => 'Basket', 'action' => 'confirm'], ['_name' => 'basket:confirm']);
 
         /*
          * ...and connect the rest of 'Pages' controller's URLs.
@@ -87,6 +94,10 @@ return function (RouteBuilder $routes): void {
         $builder->connect('/login', ['controller' => 'Users', 'action' => 'login'], ['_name' => 'admin:login']);
         $builder->connect('/logout', ['controller' => 'Users', 'action' => 'logout'], ['_name' => 'admin:logout']);
         $builder->connect('/', ['controller' => 'Dashboard', 'action' => 'index']);
+
+        // Reservations
+        $builder->connect('/reserveringen', ['controller' => 'Reservations', 'action' => 'index'], ['_name' => 'admin:reservations:index']);
+        $builder->connect('/reserveringen/status/{id}', ['controller' => 'Reservations', 'action' => 'updateStatus'], ['id' => '\d+', '_name' => 'admin:reservations:update-status', 'pass' => ['id']]);
 
         // Explicit routes for Releases CRUD including form pages (GET add/edit)
         $builder->connect('/releases', ['controller' => 'Releases', 'action' => 'index'], ['_name' => 'admin:releases:index']);

@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(php -l c:\\\\xampp\\\\htdocs\\\\72seasidevinyl\\\\src\\\\Controller\\\\Admin\\\\ReservationsController.php)",
+      "PowerShell(php -l c:\\\\xampp\\\\htdocs\\\\72seasidevinyl\\\\src\\\\Controller\\\\BasketController.php)"
+    ]
+  }
+}

@@ -91,6 +91,15 @@
                         </a>
                     </li>
 
+                    <!-- Reservations -->
+                    <li class="sidebar-menu-item <?= $this->request->getParam('controller') === 'Reservations' ? 'active' : '' ?>">
+                        <a href="<?= $this->Url->build(['prefix' => 'Admin', 'controller' => 'Reservations', 'action' => 'index']) ?>"
+                           class="group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-sidebar-hover">
+                            <i class="fa-solid fa-clipboard-list w-5 text-center"></i>
+                            Reserveringen
+                        </a>
+                    </li>
+
                 </ul>
             </div>
 
@@ -164,9 +173,15 @@
     </header>
     <!-- END header -->
 
+    <!-- Flash toast notifications -->
+    <div class="fixed top-5 right-5 z-50 flex flex-col gap-3 pointer-events-none">
+        <div class="pointer-events-auto flex flex-col gap-3">
+            <?= $this->Flash->render() ?>
+        </div>
+    </div>
+
     <!-- Page content -->
     <main class="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
-        <?= $this->Flash->render() ?>
         <?= $this->fetch('content') ?>
     </main>
 

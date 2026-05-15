@@ -3,6 +3,7 @@ module.exports = {
     content: [
         './templates/Admin/**/*.php',
         './templates/layout/admin.php',
+        './templates/element/flash/**/*.php',
     ],
     theme: {
         extend: {

@@ -14,6 +14,7 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\ArtistsTable&\Cake\ORM\Association\BelongsTo $Artists
  * @property \App\Model\Table\RecordImagesTable&\Cake\ORM\Association\HasMany $RecordImages
  * @property \App\Model\Table\GenresTable&\Cake\ORM\Association\BelongsToMany $Genres
+ * @property \App\Model\Table\RecordsArtistsTable&\Cake\ORM\Association\HasMany $RecordsArtists
  *
  * @method \App\Model\Entity\Record newEmptyEntity()
  * @method \App\Model\Entity\Record newEntity(array $data, array $options = [])
@@ -56,10 +57,27 @@ class RecordsTable extends Table
         $this->hasMany('RecordImages', [
             'foreignKey' => 'record_id',
         ]);
+        $this->hasMany('RecordSupplierImages', [
+            'foreignKey' => 'record_id',
+        ]);
+        $this->hasMany('RecordVideos', [
+            'foreignKey' => 'record_id',
+        ]);
+        $this->hasMany('RecordsArtists', [
+            'foreignKey' => 'record_id',
+        ]);
+        $this->hasMany('Tracks', [
+            'foreignKey' => 'record_id',
+        ]);
         $this->belongsToMany('Genres', [
             'foreignKey' => 'record_id',
             'targetForeignKey' => 'genre_id',
             'joinTable' => 'genres_records',
+        ]);
+        $this->belongsToMany('Suppliers', [
+            'foreignKey' => 'record_id',
+            'targetForeignKey' => 'supplier_id',
+            'joinTable' => 'records_suppliers',
         ]);
     }
 
@@ -82,6 +100,15 @@ class RecordsTable extends Table
             ->notEmptyString('name');
 
         $validator
+            ->scalar('barcode')
+            ->maxLength('barcode', 64)
+            ->allowEmptyString('barcode');
+
+        $validator
+            ->nonNegativeInteger('discogs_release_id')
+            ->allowEmptyString('discogs_release_id');
+
+        $validator
             ->scalar('cover')
             ->maxLength('cover', 255)
             ->allowEmptyString('cover');
@@ -97,6 +124,11 @@ class RecordsTable extends Table
         $validator
             ->decimal('price')
             ->allowEmptyString('price');
+
+        $validator
+            ->scalar('lowest_price')
+            ->maxLength('lowest_price', 32)
+            ->allowEmptyString('lowest_price');
 
         $validator
             ->scalar('color')

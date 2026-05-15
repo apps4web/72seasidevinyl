@@ -266,7 +266,7 @@ $this->assign('title', 'Home');
                 <div class="release-cover" style="background-color: <?= h($release['color']) ?>;">
                     <?php if (!empty($release['cover'])) : ?>
                     <img
-                        src="<?= $this->Url->image('covers/' . $release['cover']) ?>"
+                        src="<?= $this->Url->image('records/images/' . rawurlencode((string)$release['cover'])) ?>"
                         alt="<?= h($release['artist']) ?> - <?= h($release['title']) ?>"
                         class="release-cover-img"
                         loading="lazy"
